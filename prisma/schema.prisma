@@ -1,0 +1,209 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  FREELANCE
+  INTERNSHIP
+  TEMPORARY
+}
+
+enum WorkMode {
+  ONSITE
+  REMOTE
+  HYBRID
+}
+
+enum ApplicationStatus {
+  SAVED
+  APPLIED
+  SHORTLISTED
+  INTERVIEW
+  ASSESSMENT
+  OFFER
+  REJECTED
+  WITHDRAWN
+}
+
+model Company {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  about        String?  @db.Text
+  website      String?
+  logo         String?
+  industry     String?
+  size         String?
+  founded      Int?
+  headquarters String?
+  mission      String?  @db.Text
+  vision       String?  @db.Text
+  linkedinUrl  String?
+  careersPage  String?
+  techStack    Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  jobs Job[]
+}
+
+model Job {
+  id                  String            @id @default(cuid())
+  userId              String
+  companyId           String?
+  company             Company?          @relation(fields: [companyId], references: [id])
+  title               String
+  role                String?
+  subjectLine         String?
+  source              String?
+  sourceUrl           String?
+  location            String?
+  workMode            WorkMode?
+  jobType             JobType?
+  experienceLevel     String?
+  experienceRequired  String?
+  vacancy             Int?
+  officeTime          String?
+  circularDate        DateTime?
+  applicationDeadline DateTime?
+  salaryMin           Decimal?          @db.Decimal(12, 2)
+  salaryMax           Decimal?          @db.Decimal(12, 2)
+  salaryCurrency      String?
+  salaryNegotiable    Boolean           @default(false)
+  skills              Json?
+  responsibilities    Json?
+  qualifications      Json?
+  niceToHave          Json?
+  benefits            Json?
+  applicationProcess  String?           @db.Text
+  description         String            @db.Text
+  rawText             String            @db.Text
+  aiConfidence        Float?
+  status              ApplicationStatus @default(SAVED)
+  appliedAt           DateTime?
+  interviewDate       DateTime?
+  notes               String?           @db.Text
+  bookmarked          Boolean           @default(false)
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  extraData           Json?
+  aiExtractions       AIExtraction[]
+  jobNotes            JobNote[]
+  reminders           Reminder[]
+
+  @@index([userId])
+  @@index([companyId])
+  @@index([status])
+  @@index([applicationDeadline])
+  @@index([createdAt])
+  @@index([bookmarked])
+}
+
+//for ai response audit
+model AIExtraction {
+  id          String   @id @default(cuid())
+  jobId       String
+  job         Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  modelName   String
+  confidence  Float?
+  rawResponse Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([jobId])
+}
+
+model JobNote {
+  id        String   @id @default(cuid())
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  title     String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([jobId])
+}
+
+model Reminder {
+  id        String   @id @default(cuid())
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  remindAt  DateTime
+  message   String
+  sent      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([jobId])
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
