@@ -1,8 +1,4 @@
 'use server';
-/**
- * AI Job Extraction Service
- * Main extraction logic with parsing, validation, and error handling
- */
 
 import {
   ExtractionResult,
@@ -18,18 +14,20 @@ import {
   ExperienceLevel,
 } from '@/types/job-extraction';
 import { createExtractionPrompt } from './extraction-prompt';
-
-/**
- * Call Gemini API for extraction
- */
+import {
+  normalize,
+  normalizeArray,
+  normalizeBoolean,
+  normalizeDate,
+  normalizeEnum,
+  normalizeNumber,
+} from './normalization';
 import { GoogleGenAI } from '@google/genai';
 
 // Initialize the Google Gen AI client (reads GEMINI_API_KEY from process.env automatically)
 const ai = new GoogleGenAI({});
 
-/**
- * Extract job information from raw description using Gemini API
- */
+// Extract job information from raw description using Gemini API
 export async function extractJobData(
   options: ExtractionOptions
 ): Promise<ExtractionResult> {
@@ -338,11 +336,7 @@ async function callGeminiAPI(
 //   }
 // }
 
-
-
-/**
- * Parse Gemini API response
- */
+// Parse Gemini API response
 export async function parseGeminiResponse(
   responseText: string
 ): Promise<ParsedGeminiResponse> {
@@ -384,24 +378,19 @@ export async function parseGeminiResponse(
   }
 }
 
-/**
- * Normalize extracted data to match types
- */
+// Normalize extracted data to match types
 function normalizeExtractedData(data: any): JobExtractionRaw {
-  const normalize = (value: any) =>
-    value === null || value === undefined || value === '' ? null : value;
-
   return {
     companyName: normalize(data.companyName),
     title: normalize(data.title),
     role: normalize(data.role),
     location: normalize(data.location),
-    workMode: normalizeEnum(data.workMode, Object.values(WorkMode)),
-    jobType: normalizeEnum(data.jobType, Object.values(JobType)),
+    workMode: normalizeEnum(data.workMode, Object.values(WorkMode)) as WorkMode,
+    jobType: normalizeEnum(data.jobType, Object.values(JobType)) as JobType,
     experienceLevel: normalizeEnum(
       data.experienceLevel,
       Object.values(ExperienceLevel)
-    ),
+    ) as ExperienceLevel,
     experienceRequired: normalize(data.experienceRequired),
     vacancy: normalizeNumber(data.vacancy),
     officeTime: normalize(data.officeTime),
@@ -422,67 +411,7 @@ function normalizeExtractedData(data: any): JobExtractionRaw {
   };
 }
 
-/**
- * Normalize enum value
- */
-function normalizeEnum(value: any, validValues: string[]): string | null {
-  if (!value) return null;
-  const normalized = String(value).toUpperCase().trim();
-  return validValues.includes(normalized) ? normalized : null;
-}
-
-/**
- * Normalize number
- */
-function normalizeNumber(value: any): number | null {
-  if (value === null || value === undefined || value === '') return null;
-  const num = Number(value);
-  return isNaN(num) ? null : num;
-}
-
-/**
- * Normalize boolean
- */
-function normalizeBoolean(value: any): boolean | null {
-  if (value === null || value === undefined || value === '') return null;
-  if (typeof value === 'boolean') return value;
-  const str = String(value).toLowerCase();
-  if (str === 'true' || str === 'yes') return true;
-  if (str === 'false' || str === 'no') return false;
-  return null;
-}
-
-/**
- * Normalize date to ISO 8601
- */
-function normalizeDate(value: any): string | null {
-  if (!value) return null;
-  try {
-    const date = new Date(value);
-    if (isNaN(date.getTime())) return null;
-    return date.toISOString().split('T')[0]; // YYYY-MM-DD
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Normalize array
- */
-function normalizeArray(value: any): string[] | null {
-  if (!value) return null;
-  if (Array.isArray(value)) {
-    const filtered = value
-      .map((v) => String(v).trim())
-      .filter((v) => v.length > 0);
-    return filtered.length > 0 ? filtered : null;
-  }
-  return null;
-}
-
-/**
- * Validate extracted data
- */
+// Validate extracted data
 export async function validateExtraction(
   data: JobExtractionRaw
 ): Promise<ValidationResult> {
@@ -575,9 +504,7 @@ export async function validateExtraction(
   };
 }
 
-/**
- * Retry extraction on failure
- */
+// Retry extraction on failure
 export async function extractJobDataWithRetry(
   options: ExtractionOptions
 ): Promise<ExtractionResult> {

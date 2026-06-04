@@ -11,12 +11,21 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { authClient } from '@/lib/auth-client';
 
 export default function Home() {
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const {
+    data: session,
+    isPending, //loading state
+    error: sessionError, //error object
+    refetch, //refetch the session
+  } = authClient.useSession();
+  console.log(session);
 
   const handleExtract = async () => {
     if (!description.trim()) {
@@ -31,11 +40,13 @@ export default function Home() {
     try {
       const extractionResult = await extractJobData({
         rawDescription: description,
+        modelName: 'gemini-3.1-flash-lite',
       });
 
       if (extractionResult.success) {
         setResult(extractionResult.data);
-        // console.log(extractionResult.data);
+        console.log(extractionResult.data);
+        const job = {};
       } else {
         setError(extractionResult.error?.message || 'Extraction failed');
       }

@@ -83,6 +83,7 @@ export interface JobExtractionRaw {
   benefits: string[] | null;
   applicationProcess: string | null;
   description: string | null; // Cleaned/normalized description
+  subjectLine?: string | null;
 }
 
 /**
