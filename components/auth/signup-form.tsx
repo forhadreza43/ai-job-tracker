@@ -1,7 +1,7 @@
 'use client';
 
 import { authClient } from '@/lib/auth-client';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,13 +21,14 @@ import { z } from 'zod';
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [formErrors, setFormErrors] = React.useState<
     Record<string, string[]> | undefined
   >();
   const [error, setError] = React.useState<string | null>(null);
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     const formData = new FormData(e.currentTarget);
@@ -41,12 +42,15 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 
     setFormErrors(undefined);
     const { name, email, password } = validatedFields.data;
+    const image =
+      'https://res.cloudinary.com/dqs6k0so6/image/upload/v1776004122/default-avatar_hg6dam.jpg';
 
     startTransition(async () => {
       const result = await authClient.signUp.email({
         name,
         email,
         password,
+        image,
       });
 
       if (result?.error) {
@@ -55,7 +59,16 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         return;
       }
 
-      router.push('/');
+      // FIX: Check search parameters or local storage to choose correct redirection after registration
+      const isPendingJob =
+        searchParams?.get('pending') === 'true' ||
+        !!localStorage.getItem('pendingJobData');
+
+      if (isPendingJob) {
+        router.push('/?pending=true');
+      } else {
+        router.push('/');
+      }
       router.refresh();
     });
   };
@@ -133,7 +146,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               </p>
             )}
             <Field>
-              <Button type="submit" disabled={isPending}>
+              <Button type="submit" className="w-full" disabled={isPending}>
                 {isPending ? 'Creating Account...' : 'Create Account'}
               </Button>
             </Field>
@@ -141,12 +154,22 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
             <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
               Or continue with
             </FieldSeparator>
-            <Field className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <GitHubAuth />
               <GoogleAuth />
-            </Field>
+            </div>
             <FieldDescription className="text-center">
-              Already have an account? <Link href="/login">Sign in</Link>
+              Already have an account?{' '}
+              <Link
+                href={
+                  localStorage.getItem('pendingJobData')
+                    ? '/login?pending=true'
+                    : '/login'
+                }
+                className="underline"
+              >
+                Sign in
+              </Link>
             </FieldDescription>
           </FieldGroup>
         </form>

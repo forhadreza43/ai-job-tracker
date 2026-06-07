@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -66,8 +65,8 @@ model Job {
   source              String?
   sourceUrl           String?
   location            String?
-  workMode            WorkMode?
-  jobType             JobType?
+  workMode            WorkMode?         @default(ONSITE)
+  jobType             JobType?          @default(FULL_TIME)
   experienceLevel     String?
   experienceRequired  String?
   vacancy             Int?

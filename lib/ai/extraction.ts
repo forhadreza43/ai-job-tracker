@@ -394,6 +394,8 @@ function normalizeExtractedData(data: any): JobExtractionRaw {
     experienceRequired: normalize(data.experienceRequired),
     vacancy: normalizeNumber(data.vacancy),
     officeTime: normalize(data.officeTime),
+    source: normalize(data.source),
+    sourceUrl: normalize(data.sourceUrl),
     circularDate: normalizeDate(data.circularDate),
     applicationDeadline: normalizeDate(data.applicationDeadline),
     salaryMin: normalizeNumber(data.salaryMin),

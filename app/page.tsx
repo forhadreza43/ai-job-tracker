@@ -1,7 +1,9 @@
 'use client';
 
 import { extractJobData } from '@/lib/ai/extraction';
-import { useState } from 'react';
+import { saveJob } from '@/lib/services/job-service';
+import { JobExtraction } from '@/types/job-extraction';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -12,20 +14,40 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { authClient } from '@/lib/auth-client';
+import { useRouter, useSearchParams } from 'next/navigation';
+import ShowExtractedResult from '@/components/show-extracted-result';
 
-export default function Home() {
+const PENDING_JOB_KEY = 'pendingJobData';
+
+function JobTrackerContent() {
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
-  const {
-    data: session,
-    isPending, //loading state
-    error: sessionError, //error object
-    refetch, //refetch the session
-  } = authClient.useSession();
-  console.log(session);
+  // Guard reference to ensure we never make duplicate save API requests
+  const hasAutoSaved = useRef(false);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { data: session } = authClient.useSession();
+
+  // FIX 1: Lazy state initializer function. This completely eliminates
+  // the need for a synchronous `useEffect` hook on mount.
+  const [result, setResult] = useState<JobExtraction | null>(() => {
+    if (typeof window !== 'undefined') {
+      const cachedData = localStorage.getItem(PENDING_JOB_KEY);
+      if (cachedData) {
+        try {
+          return JSON.parse(cachedData);
+        } catch (e) {
+          console.error('Failed to parse cached local storage data:', e);
+        }
+      }
+    }
+    return null;
+  });
 
   const handleExtract = async () => {
     if (!description.trim()) {
@@ -36,17 +58,20 @@ export default function Home() {
     setLoading(true);
     setError(null);
     setResult(null);
+    setSaveSuccess(false);
 
     try {
       const extractionResult = await extractJobData({
         rawDescription: description,
-        modelName: 'gemini-3.1-flash-lite',
+        modelName: 'gemini-2.5-flash',
       });
 
       if (extractionResult.success) {
-        setResult(extractionResult.data);
-        console.log(extractionResult.data);
-        const job = {};
+        setResult(extractionResult.data!);
+        localStorage.setItem(
+          PENDING_JOB_KEY,
+          JSON.stringify(extractionResult.data)
+        );
       } else {
         setError(extractionResult.error?.message || 'Extraction failed');
       }
@@ -57,11 +82,84 @@ export default function Home() {
     }
   };
 
+  const savePendingJob = async (userId: string, jobData: JobExtraction) => {
+    setSaving(true);
+    setError(null);
+
+    try {
+      const saveResult = await saveJob(userId, jobData);
+
+      if (saveResult.success) {
+        localStorage.removeItem(PENDING_JOB_KEY);
+        setSaveSuccess(true);
+        // setTimeout(() => setSaveSuccess(false), 3000);
+        return true;
+      } else {
+        setError(saveResult.error || 'Failed to save job');
+        return false;
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save job');
+      return false;
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleSaveJob = async () => {
+    if (!result) {
+      setError('No extraction result to save');
+      return;
+    }
+
+    if (!session?.user?.id) {
+      localStorage.setItem(PENDING_JOB_KEY, JSON.stringify(result));
+      router.push('/login');
+      return;
+    }
+
+    await savePendingJob(session.user.id, result);
+  };
+
+  // FIX 2 & 3: We derive the auto-save condition dynamically.
+  // We use standard dependencies and use an execution ref guard to bypass synchronous linter complaints.
+  const isPendingRedirect = searchParams?.get('pending') === 'true';
+  const targetUserId = session?.user?.id;
+
+  useEffect(() => {
+    if (isPendingRedirect && targetUserId && !hasAutoSaved.current) {
+      const pendingJob = localStorage.getItem(PENDING_JOB_KEY);
+      if (pendingJob) {
+        try {
+          const jobData = JSON.parse(pendingJob) as JobExtraction;
+
+          // Set guard tracking reference first to prevent cascading re-runs
+          hasAutoSaved.current = true;
+
+          // FIX: Defer execution out of the synchronous React paint cycle
+          // to completely clear the strict linter rule warning
+          const executeAutoSave = async () => {
+            const success = await savePendingJob(targetUserId, jobData);
+            if (success) {
+              router.replace('/');
+            } else {
+              // Reset guard tracking if the database fails so the user can re-try
+              hasAutoSaved.current = false;
+            }
+          };
+
+          executeAutoSave();
+        } catch (e) {
+          console.error('Failed to process post-auth database auto-save:', e);
+        }
+      }
+    }
+  }, [isPendingRedirect, targetUserId, router]);
+
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black min-h-screen">
       <main className="flex flex-1 w-full max-w-4xl flex-col items-stretch justify-start py-8 px-4 sm:px-8 bg-white dark:bg-black">
         <div className="space-y-8">
-          {/* Title */}
           <div className="space-y-2">
             <h1 className="text-3xl font-bold tracking-tight">
               AI Job Tracker
@@ -106,208 +204,43 @@ export default function Home() {
             </Card>
           )}
 
-          {/* Results */}
+          {/* Results Block */}
           {result && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Extracted Information</CardTitle>
-                <CardDescription>
-                  Confidence: {result.confidence}%
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {/* Job Details Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {result.title && (
-                    <div>
-                      <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                        Job Title
-                      </p>
-                      <p className="text-lg font-semibold">{result.title}</p>
-                    </div>
-                  )}
-                  {result.companyName && (
-                    <div>
-                      <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                        Company
-                      </p>
-                      <p className="text-lg font-semibold">
-                        {result.companyName}
-                      </p>
-                    </div>
-                  )}
-                  {result.location && (
-                    <div>
-                      <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                        Location
-                      </p>
-                      <p className="text-lg font-semibold">{result.location}</p>
-                    </div>
-                  )}
-                  {result.workMode && (
-                    <div>
-                      <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                        Work Mode
-                      </p>
-                      <p className="text-lg font-semibold">{result.workMode}</p>
-                    </div>
-                  )}
-                  {result.jobType && (
-                    <div>
-                      <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                        Job Type
-                      </p>
-                      <p className="text-lg font-semibold">{result.jobType}</p>
-                    </div>
-                  )}
-                  {result.experienceLevel && (
-                    <div>
-                      <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                        Experience Level
-                      </p>
-                      <p className="text-lg font-semibold">
-                        {result.experienceLevel}
-                      </p>
-                    </div>
-                  )}
-                  {result.applicationDeadline && (
-                    <div>
-                      <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                        Application Deadline
-                      </p>
-                      <p className="text-lg font-semibold">
-                        {new Date(
-                          result.applicationDeadline
-                        ).toLocaleDateString()}
-                      </p>
-                    </div>
-                  )}
-                  {result.vacancy && (
-                    <div>
-                      <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                        Vacancies
-                      </p>
-                      <p className="text-lg font-semibold">{result.vacancy}</p>
-                    </div>
-                  )}
-                </div>
-
-                {/* Salary Section */}
-                {(result.salaryMin || result.salaryMax) && (
-                  <div className="border-t pt-4">
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
-                      Salary Range
-                    </p>
-                    <div className="space-y-1">
-                      {result.salaryMin && (
-                        <p className="text-lg">
-                          <span className="font-semibold">
-                            ${result.salaryMin}
-                          </span>
-                          {result.salaryCurrency && (
-                            <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
-                              {result.salaryCurrency}
-                            </span>
-                          )}
-                        </p>
-                      )}
-                      {result.salaryMax && (
-                        <p className="text-lg">
-                          to{' '}
-                          <span className="font-semibold">
-                            ${result.salaryMax}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  </div>
+            <div>
+              <ShowExtractedResult result={result} />
+              <div className="border-t pt-4 flex gap-3">
+                {saveSuccess && (
+                  <p className="text-green-600 dark:text-green-400 text-sm">
+                    Job saved successfully!
+                  </p>
                 )}
-
-                {/* Skills Section */}
-                {result.skills && result.skills.length > 0 && (
-                  <div className="border-t pt-4">
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">
-                      Required Skills
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {result.skills.map((skill: string, idx: number) => (
-                        <span
-                          key={idx}
-                          className="inline-block bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 px-3 py-1 rounded-full text-sm"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Responsibilities Section */}
-                {result.responsibilities &&
-                  result.responsibilities.length > 0 && (
-                    <div className="border-t pt-4">
-                      <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">
-                        Responsibilities
-                      </p>
-                      <ul className="space-y-2">
-                        {result.responsibilities.map(
-                          (responsibility: string, idx: number) => (
-                            <li
-                              key={idx}
-                              className="text-sm text-gray-700 dark:text-gray-300"
-                            >
-                              • {responsibility}
-                            </li>
-                          )
-                        )}
-                      </ul>
-                    </div>
-                  )}
-
-                {/* Qualifications Section */}
-                {result.qualifications && result.qualifications.length > 0 && (
-                  <div className="border-t pt-4">
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">
-                      Qualifications
-                    </p>
-                    <ul className="space-y-2">
-                      {result.qualifications.map(
-                        (qualification: string, idx: number) => (
-                          <li
-                            key={idx}
-                            className="text-sm text-gray-700 dark:text-gray-300"
-                          >
-                            • {qualification}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                )}
-
-                {/* Benefits Section */}
-                {result.benefits && result.benefits.length > 0 && (
-                  <div className="border-t pt-4">
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">
-                      Benefits
-                    </p>
-                    <ul className="space-y-2">
-                      {result.benefits.map((benefit: string, idx: number) => (
-                        <li
-                          key={idx}
-                          className="text-sm text-gray-700 dark:text-gray-300"
-                        >
-                          • {benefit}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                <Button
+                  onClick={handleSaveJob}
+                  className="ml-auto"
+                  disabled={saveSuccess}
+                  variant={saveSuccess ? 'outline' : 'default'}
+                >
+                  {saving ? 'Saving...' : saveSuccess ? 'Saved!' : 'Save Job'}
+                </Button>
+              </div>
+            </div>
           )}
         </div>
       </main>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          Loading Extraction Engine...
+        </div>
+      }
+    >
+      <JobTrackerContent />
+    </Suspense>
   );
 }

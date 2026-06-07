@@ -51,6 +51,11 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Company: 'Company',
+  Job: 'Job',
+  AIExtraction: 'AIExtraction',
+  JobNote: 'JobNote',
+  Reminder: 'Reminder',
   User: 'User',
   Session: 'Session',
   Account: 'Account',
@@ -71,6 +76,110 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const CompanyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  about: 'about',
+  website: 'website',
+  logo: 'logo',
+  industry: 'industry',
+  size: 'size',
+  founded: 'founded',
+  headquarters: 'headquarters',
+  mission: 'mission',
+  vision: 'vision',
+  linkedinUrl: 'linkedinUrl',
+  careersPage: 'careersPage',
+  techStack: 'techStack',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
+
+
+export const JobScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyId: 'companyId',
+  title: 'title',
+  role: 'role',
+  subjectLine: 'subjectLine',
+  source: 'source',
+  sourceUrl: 'sourceUrl',
+  location: 'location',
+  workMode: 'workMode',
+  jobType: 'jobType',
+  experienceLevel: 'experienceLevel',
+  experienceRequired: 'experienceRequired',
+  vacancy: 'vacancy',
+  officeTime: 'officeTime',
+  circularDate: 'circularDate',
+  applicationDeadline: 'applicationDeadline',
+  salaryMin: 'salaryMin',
+  salaryMax: 'salaryMax',
+  salaryCurrency: 'salaryCurrency',
+  salaryNegotiable: 'salaryNegotiable',
+  skills: 'skills',
+  responsibilities: 'responsibilities',
+  qualifications: 'qualifications',
+  niceToHave: 'niceToHave',
+  benefits: 'benefits',
+  applicationProcess: 'applicationProcess',
+  description: 'description',
+  rawText: 'rawText',
+  aiConfidence: 'aiConfidence',
+  status: 'status',
+  appliedAt: 'appliedAt',
+  interviewDate: 'interviewDate',
+  notes: 'notes',
+  bookmarked: 'bookmarked',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  extraData: 'extraData'
+} as const
+
+export type JobScalarFieldEnum = (typeof JobScalarFieldEnum)[keyof typeof JobScalarFieldEnum]
+
+
+export const AIExtractionScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  modelName: 'modelName',
+  confidence: 'confidence',
+  rawResponse: 'rawResponse',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AIExtractionScalarFieldEnum = (typeof AIExtractionScalarFieldEnum)[keyof typeof AIExtractionScalarFieldEnum]
+
+
+export const JobNoteScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  title: 'title',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type JobNoteScalarFieldEnum = (typeof JobNoteScalarFieldEnum)[keyof typeof JobNoteScalarFieldEnum]
+
+
+export const ReminderScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  remindAt: 'remindAt',
+  message: 'message',
+  sent: 'sent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReminderScalarFieldEnum = (typeof ReminderScalarFieldEnum)[keyof typeof ReminderScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -139,12 +248,36 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 export const NullsOrder = {

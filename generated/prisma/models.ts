@@ -8,6 +8,11 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Company'
+export type * from './models/Job'
+export type * from './models/AIExtraction'
+export type * from './models/JobNote'
+export type * from './models/Reminder'
 export type * from './models/User'
 export type * from './models/Session'
 export type * from './models/Account'

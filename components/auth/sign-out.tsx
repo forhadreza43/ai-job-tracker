@@ -3,8 +3,9 @@
 import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-const SignOut = () => {
+const SignOut = ({ className }: { className?: string }) => {
   const router = useRouter();
 
   const handleSignOut = async () => {
@@ -13,7 +14,9 @@ const SignOut = () => {
   };
 
   return (
-    <Button onClick={handleSignOut}>Sign Out</Button>
+    <Button onClick={handleSignOut} className={cn(`${className}`)}>
+      Sign Out
+    </Button>
   );
 };
 

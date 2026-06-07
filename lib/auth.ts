@@ -24,16 +24,26 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: false,
   },
+
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ['github', 'google'],
+    },
+  },
+
   socialProviders: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID || '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-      redirect: false,
+      prompt: 'select_account',
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      // redirect: false,
     },
     github: {
-      clientId: process.env.GITHUB_CLIENT_ID || '',
-      clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
-      redirect: false,
+      prompt: 'select_account',
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      // redirect: false,
     },
   },
   // session: {

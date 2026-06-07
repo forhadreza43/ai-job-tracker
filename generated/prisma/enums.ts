@@ -9,7 +9,36 @@
 * 🟢 You can import this file directly.
 */
 
+export const JobType = {
+  FULL_TIME: 'FULL_TIME',
+  PART_TIME: 'PART_TIME',
+  CONTRACT: 'CONTRACT',
+  FREELANCE: 'FREELANCE',
+  INTERNSHIP: 'INTERNSHIP',
+  TEMPORARY: 'TEMPORARY'
+} as const
+
+export type JobType = (typeof JobType)[keyof typeof JobType]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const WorkMode = {
+  ONSITE: 'ONSITE',
+  REMOTE: 'REMOTE',
+  HYBRID: 'HYBRID'
+} as const
+
+export type WorkMode = (typeof WorkMode)[keyof typeof WorkMode]
+
+
+export const ApplicationStatus = {
+  SAVED: 'SAVED',
+  APPLIED: 'APPLIED',
+  SHORTLISTED: 'SHORTLISTED',
+  INTERVIEW: 'INTERVIEW',
+  ASSESSMENT: 'ASSESSMENT',
+  OFFER: 'OFFER',
+  REJECTED: 'REJECTED',
+  WITHDRAWN: 'WITHDRAWN'
+} as const
+
+export type ApplicationStatus = (typeof ApplicationStatus)[keyof typeof ApplicationStatus]

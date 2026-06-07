@@ -1,29 +1,45 @@
 // Normalize array
-export function normalizeArray(value: any): string[] | null {
-  if (!value) return null;
+export function normalizeArray(value: unknown): string[] {
+  if (!value) return [];
+
+  if (typeof value === 'string') {
+    return value
+      .split(',')
+      .map((v) => v.trim())
+      .filter((v) => v.length > 0);
+  }
+
   if (Array.isArray(value)) {
     const filtered = value
       .map((v) => String(v).trim())
       .filter((v) => v.length > 0);
-    return filtered.length > 0 ? filtered : null;
+    return filtered.length > 0 ? filtered : [];
   }
-  return null;
+  return [];
 }
 
 // Normalize date to ISO 8601
-export function normalizeDate(value: any): string | null {
+export function normalizeDate(value: unknown): string | null {
   if (!value) return null;
+
   try {
-    const date = new Date(value);
+    const date = new Date(
+      typeof value === 'number' ? value : String(value).trim()
+    );
     if (isNaN(date.getTime())) return null;
-    return date.toISOString().split('T')[0]; // YYYY-MM-DD
+
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
   } catch {
     return null;
   }
 }
 
 //Normalize boolean
-export function normalizeBoolean(value: any): boolean | null {
+export function normalizeBoolean(value: unknown): boolean | null {
   if (value === null || value === undefined || value === '') return null;
   if (typeof value === 'boolean') return value;
   const str = String(value).toLowerCase();

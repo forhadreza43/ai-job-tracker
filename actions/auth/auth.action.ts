@@ -60,7 +60,6 @@ export async function logInEmailPassword(
     };
   }
   if (isSuccessful) {
-    revalidatePath('/');
     redirect('/');
   }
   return { success: true, message: 'Logged in successfully!' };

@@ -70,6 +70,8 @@ export interface JobExtractionRaw {
   experienceRequired: string | null;
   vacancy: number | null;
   officeTime: string | null;
+  source: string | null;
+  sourceUrl: string | null;
   circularDate: string | null; // ISO 8601 format
   applicationDeadline: string | null; // ISO 8601 format
   salaryMin: number | null; // In base currency
@@ -141,7 +143,7 @@ export interface ExtractionResult {
 export interface ExtractionError {
   code: string;
   message: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
 }
 
 /**

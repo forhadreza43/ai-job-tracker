@@ -31,38 +31,47 @@ export function LoginForm({
   >();
   const [error, setError] = React.useState<string | null>(null);
 
-const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  setError(null);
-  const formData = new FormData(e.currentTarget);
-  const rawFields = Object.fromEntries(formData.entries());
-  const validatedFields = loginSchema.safeParse(rawFields);
+  const pendingJob =
+    typeof window !== 'undefined'
+      ? localStorage.getItem('pendingJobData')
+      : null;
 
-  if (!validatedFields.success) {
-    setFormErrors(z.flattenError(validatedFields.error).fieldErrors);
-    return;
-  }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    const formData = new FormData(e.currentTarget);
+    const rawFields = Object.fromEntries(formData.entries());
+    const validatedFields = loginSchema.safeParse(rawFields);
 
-  setFormErrors(undefined);
-  const { email, password } = validatedFields.data;
-
-  startTransition(async () => {
-    const result = await authClient.signIn.email({
-      email,
-      password,
-      rememberMe: true,
-    });
-
-    if (result?.error) {
-      const err = result.error as { message?: string; status?: number };
-      setError(err?.message || 'Invalid credentials');
+    if (!validatedFields.success) {
+      setFormErrors(z.flattenError(validatedFields.error).fieldErrors);
       return;
     }
 
-    router.push('/');
-    router.refresh();
-  });
-};
+    setFormErrors(undefined);
+    const { email, password } = validatedFields.data;
+
+    startTransition(async () => {
+      const result = await authClient.signIn.email({
+        email,
+        password,
+        rememberMe: true,
+      });
+
+      if (result?.error) {
+        const err = result.error as { message?: string; status?: number };
+        setError(err?.message || 'Invalid credentials');
+        return;
+      }
+
+      if (pendingJob) {
+        router.push('/?pending=true');
+      } else {
+        router.push('/');
+      }
+      router.refresh();
+    });
+  };
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -114,7 +123,7 @@ const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
               )}
 
               <Field>
-                <Button type="submit" disabled={isPending}>
+                <Button type="submit" className="w-full" disabled={isPending}>
                   {isPending ? 'Logging in...' : 'Login'}
                 </Button>
               </Field>
@@ -122,12 +131,19 @@ const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                 Or continue with
               </FieldSeparator>
-              <Field className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <GitHubAuth />
                 <GoogleAuth />
-              </Field>
+              </div>
               <FieldDescription className="text-center">
-                Don&apos;t have an account? <Link href="/signup">Sign up</Link>
+                Don&apos;t have an account?{' '}
+                {/* FIX: Persists the redirect string on the sign-up conversion path */}
+                <Link
+                  href={pendingJob ? '/signup?pending=true' : '/signup'}
+                  className="underline"
+                >
+                  Sign up
+                </Link>
               </FieldDescription>
             </FieldGroup>
           </form>

@@ -26,6 +26,8 @@ EXTRACTION FIELDS:
 - experienceRequired: Original text describing experience requirement (e.g., "5+ years").
 - vacancy: Number of open positions (as integer).
 - officeTime: Work hours or time details.
+- source: Where the job post was published.
+- sourceUrl: Web link of the published job post.
 - circularDate: Date when job posting was published.
 - applicationDeadline: Application closing date.
 - salaryMin: Minimum salary (numeric only).
@@ -75,6 +77,8 @@ EXAMPLE OUTPUT FORMAT:
   "experienceRequired": "7+ years of software development",
   "vacancy": 2,
   "officeTime": "9 AM - 5 PM PST",
+  "source": "Jobsyo",
+  "SourceUrl":"https://jobsyo.com/jobs/6a1c439a60551b5bd254a21e"
   "circularDate": "2026-06-01",
   "applicationDeadline": "2026-06-30",
   "salaryMin": 150000,

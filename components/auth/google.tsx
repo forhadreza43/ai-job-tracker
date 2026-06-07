@@ -1,17 +1,65 @@
+'use client';
 import { Button } from '@/components/ui/button';
+import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
+import { useState, useTransition } from 'react';
 
 const GoogleAuth = () => {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+
+  const handleSignIn = () => {
+    setError(null);
+    startTransition(async () => {
+      const hasPendingJob =
+        typeof window !== 'undefined' &&
+        !!localStorage.getItem('pendingJobData');
+
+      const result = await authClient.signIn.social({
+        provider: 'google',
+        // FIX: Passes callback target explicitly to social provider redirect configuration
+        callbackURL: hasPendingJob ? '/?pending=true' : '/',
+      });
+
+      if (result?.error) {
+        const err = result.error as { message?: string; status?: number };
+        setError(err?.message || 'Invalid credentials');
+        return;
+      }
+
+      router.push(hasPendingJob ? '/?pending=true' : '/');
+      router.refresh();
+    });
+  };
+
   return (
-    <Button variant="outline" type="button">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path
-          d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
-          fill="currentColor"
-        />
-      </svg>
-      Google
-      <span className="sr-only">Login with Google</span>
-    </Button>
+    <>
+      <Button
+        onClick={handleSignIn}
+        variant="outline"
+        type="button"
+        disabled={isPending}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          className="mr-2 h-4 w-4"
+        >
+          <path
+            d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
+            fill="currentColor"
+          />
+        </svg>
+        {isPending ? 'Signing in...' : 'Google'}
+        <span className="sr-only">Login with Google</span>
+      </Button>
+      {error && (
+        <p className="text-sm font-medium text-center text-destructive w-full col-span-2">
+          {error}
+        </p>
+      )}
+    </>
   );
 };
 
