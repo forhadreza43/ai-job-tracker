@@ -9,10 +9,10 @@ export async function getJobs(userId: string) {
         userId: userId,
       },
       include: {
-        company: true, // <-- ADD THIS: Fetches the related Company data
+        company: true, 
       },
       orderBy: {
-        createdAt: 'desc', // Best practice: show newest jobs first
+        createdAt: 'desc',
       },
     });
 

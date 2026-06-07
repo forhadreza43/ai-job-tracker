@@ -12,6 +12,8 @@ import { Badge } from '@/components/ui/badge';
 import { getCompany, getJobById } from '@/actions/job/job.action';
 import { CircleCheckBig } from 'lucide-react';
 
+
+
 export default async function JobDetailsPage({
   params,
 }: {
@@ -22,11 +24,11 @@ export default async function JobDetailsPage({
   const company = await getCompany(job?.companyId as string);
 
   if (!job) {
-    notFound(); // This will trigger the app/not-found.tsx page if the job doesn't exist
+    notFound();
   }
 
   return (
-    <div className="container mx-auto px-4 py-10">
+    <div className="container max-w-[1440px] mx-auto px-4 py-10">
       <div className="mb-6">
         <Button variant="outline" asChild>
           <Link href="/jobs">&larr; Back to Jobs</Link>
@@ -37,7 +39,9 @@ export default async function JobDetailsPage({
         <CardHeader>
           <div className="flex justify-between items-start">
             <div>
-              <CardTitle className="text-2xl text-gray-700 font-bold">{job.title}</CardTitle>
+              <CardTitle className="text-2xl text-gray-700 font-bold">
+                {job.title}
+              </CardTitle>
               <CardDescription className="text-lg mt-2">
                 Company Name:{' '}
                 <span className="text-red-500">{company?.name || 'N/A'}</span>
@@ -49,7 +53,7 @@ export default async function JobDetailsPage({
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 llg:grid-cols-3 gap-4">
             <div>
               <h3 className="font-semibold text-muted-foreground">Location</h3>
               <p>{job.location || 'Not specified'}</p>
@@ -64,7 +68,7 @@ export default async function JobDetailsPage({
                   : 'Not specified'}
               </p>
             </div>
-            
+
             <div>
               <h3 className="font-semibold text-muted-foreground">Salary</h3>
               <p>
@@ -74,7 +78,7 @@ export default async function JobDetailsPage({
                 {job.salaryNegotiable && ' (Negotiable)'}
               </p>
             </div>
-            
+
             <div>
               <h3 className="font-semibold text-muted-foreground">Deadline</h3>
               <p>
@@ -83,7 +87,46 @@ export default async function JobDetailsPage({
                   : 'No deadline'}
               </p>
             </div>
-            
+
+            {job.circularDate && (
+              <div>
+                <h3 className="font-semibold text-muted-foreground">
+                  Vacancies
+                </h3>
+                <p>
+                  {job.circularDate
+                    ? new Date(job.circularDate).toLocaleDateString()
+                    : 'Unknown'}
+                </p>
+              </div>
+            )}
+
+            {job.interviewDate && (
+              <div>
+                <h3 className="font-semibold text-muted-foreground">
+                  Interview Date
+                </h3>
+                <p>
+                  {job.interviewDate
+                    ? new Date(job.interviewDate).toLocaleDateString()
+                    : 'Unknown'}
+                </p>
+              </div>
+            )}
+
+            {job.appliedAt && (
+              <div>
+                <h3 className="font-semibold text-muted-foreground">
+                  Applied Date
+                </h3>
+                <p>
+                  {job.appliedAt
+                    ? new Date(job.appliedAt).toLocaleDateString()
+                    : 'Unknown'}
+                </p>
+              </div>
+            )}
+
             <div>
               <h3 className="font-semibold text-muted-foreground">Job Type</h3>
               <p>
@@ -113,6 +156,58 @@ export default async function JobDetailsPage({
                 <p>{job.experienceLevel}</p>
               </div>
             )}
+
+            {job.experienceRequired && (
+              <div>
+                <h3 className="font-semibold text-muted-foreground">
+                  Required Experience
+                </h3>
+                <p>{job.experienceRequired}</p>
+              </div>
+            )}
+
+            {job.subjectLine && (
+              <div>
+                <h3 className="font-semibold text-muted-foreground">
+                  Subject Line
+                </h3>
+                <p>{job.subjectLine}</p>
+              </div>
+            )}
+
+            {job.source && (
+              <div>
+                <h3 className="font-semibold text-muted-foreground">Source</h3>
+                <p>{job.source}</p>
+              </div>
+            )}
+
+            {/* {job.sourceUrl && (
+              <div>
+                <h3 className="font-semibold text-muted-foreground">
+                  Source Link
+                </h3>
+                <p>{job.sourceUrl}</p>
+              </div>
+            )} */}
+
+            {job.officeTime && (
+              <div>
+                <h3 className="font-semibold text-muted-foreground">
+                  Office Time
+                </h3>
+                <p>{job.officeTime}</p>
+              </div>
+            )}
+
+            {job.applicationProcess && (
+              <div>
+                <h3 className="font-semibold text-muted-foreground">
+                  Application Process
+                </h3>
+                <p>{job.applicationProcess}</p>
+              </div>
+            )}
           </div>
 
           <div>
@@ -124,7 +219,7 @@ export default async function JobDetailsPage({
             </div>
           </div>
 
-          {job.responsibilities && job.responsibilities !== null && (
+          {job.responsibilities && job.responsibilities.length > 0 && (
             <div>
               <h3 className="font-semibold text-muted-foreground mb-2">
                 Responsibilities
@@ -145,7 +240,7 @@ export default async function JobDetailsPage({
             </div>
           )}
 
-          {job.skills && job.skills !== null && (
+          {job.skills && job.skills.length > 0 && (
             <div>
               <h3 className="font-semibold text-muted-foreground mb-2">
                 Required Skills
@@ -163,7 +258,7 @@ export default async function JobDetailsPage({
             </div>
           )}
 
-          {job.qualifications && job.qualifications !== null && (
+          {job.qualifications && job.qualifications.length > 0 && (
             <div>
               <h3 className="font-semibold text-muted-foreground mb-2">
                 Qualifications
@@ -183,8 +278,26 @@ export default async function JobDetailsPage({
               </ul>
             </div>
           )}
+          {job.niceToHave && job.niceToHave.length > 0 && (
+            <div>
+              <h3 className="font-semibold text-muted-foreground mb-2">
+                Nice To Have
+              </h3>
+              <ul className="space-y-2">
+                {job.niceToHave.map((nice: string, idx: number) => (
+                  <li
+                    key={idx}
+                    className="text-sm text-gray-700 dark:text-gray-300 flex items-center gap-2"
+                  >
+                    <CircleCheckBig size={14} className="text-green-500" />{' '}
+                    {nice}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          {job.benefits && job.benefits !== null && (
+          {job.benefits && job.benefits.length > 0 && (
             <div>
               <h3 className="font-semibold text-muted-foreground mb-2">
                 Benefits

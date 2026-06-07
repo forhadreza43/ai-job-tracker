@@ -128,7 +128,7 @@ interface GetJobsParams {
 export async function getJobs({
   userId,
   page = 1,
-  pageSize = 10,
+  pageSize = 15,
   search = '',
   status,
   jobType,

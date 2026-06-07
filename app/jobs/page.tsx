@@ -10,9 +10,8 @@ export default async function JobsPage() {
   const data = await getJobs(sessionData?.user?.id as string);
 
   return (
-    <div className="mx-auto container px-4 py-10">
+    <div className="mx-auto container max-w-[1440px] px-4 py-10">
       <h1 className="text-xl font-bold mb-6">My Job Applications</h1>
-      {/* Pass the data to the client component */}
       <DataTable columns={columns} data={data} />
     </div>
   );

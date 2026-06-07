@@ -16,7 +16,6 @@ import {
   JobStatusStats,
 } from '@/types/dashboard';
 import { prisma } from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
 
 /**
  * Dashboard Query Service
@@ -160,7 +159,7 @@ export class DashboardQueryService {
    */
   async getUpcomingDeadlines(
     userId: string,
-    limit: number = 10
+    limit: number = 15
   ): Promise<UpcomingDeadline[]> {
     const now = new Date();
 
@@ -260,7 +259,7 @@ export class DashboardQueryService {
    */
   async getRecentJobs(
     userId: string,
-    limit: number = 10
+    limit: number = 15
   ): Promise<RecentJob[]> {
     const jobs = await prisma.$queryRaw<
       Array<{
@@ -455,9 +454,9 @@ export class DashboardQueryService {
     }
 
     return {
-      averageTimeToApply,
-      averageTimeToInterview,
-      averageTimeToOffer,
+      avgTimeToApply,
+      avgTimeToInterview,
+      avgTimeToOffer,
       offerRate,
       interviewRate,
       rejectRate,

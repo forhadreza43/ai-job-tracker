@@ -9,9 +9,6 @@ import { Textarea } from '@/components/ui/textarea';
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
 import { ModelSelector, DEFAULT_MODEL } from '@/components/model-selector';
 import { authClient } from '@/lib/auth-client';
@@ -35,8 +32,7 @@ function JobTrackerContent() {
   const searchParams = useSearchParams();
   const { data: session } = authClient.useSession();
 
-  // FIX 1: Lazy state initializer function. This completely eliminates
-  // the need for a synchronous `useEffect` hook on mount.
+
   const [result, setResult] = useState<JobExtraction | null>(() => {
     if (typeof window !== 'undefined') {
       const cachedData = localStorage.getItem(PENDING_JOB_KEY);
@@ -51,38 +47,7 @@ function JobTrackerContent() {
     return null;
   });
 
-  const handleExtract = async () => {
-    if (!description.trim()) {
-      setError('Please enter a job description');
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    setResult(null);
-    setSaveSuccess(false);
-
-    try {
-      const extractionResult = await extractJobData({
-        rawDescription: description,
-        modelName: selectedModel,
-      });
-
-      if (extractionResult.success) {
-        setResult(extractionResult.data!);
-        localStorage.setItem(
-          PENDING_JOB_KEY,
-          JSON.stringify(extractionResult.data)
-        );
-      } else {
-        setError(extractionResult.error?.message || 'Extraction failed');
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  };
+  
 
   const savePendingJob = async (userId: string, jobData: JobExtraction) => {
     setSaving(true);
@@ -123,6 +88,38 @@ function JobTrackerContent() {
     await savePendingJob(session.user.id, result);
   };
 
+  const handleExtract = async () => {
+    if (!description.trim()) {
+      setError('Please enter a job description');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setResult(null);
+    setSaveSuccess(false);
+
+    try {
+      const extractionResult = await extractJobData({
+        rawDescription: description,
+        modelName: selectedModel,
+      });
+
+      if (extractionResult.success) {
+        setResult(extractionResult.data!);
+        localStorage.setItem(
+          PENDING_JOB_KEY,
+          JSON.stringify(extractionResult.data)
+        );
+      } else {
+        setError(extractionResult.error?.message || 'Extraction failed');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const isPendingRedirect = searchParams?.get('pending') === 'true';
   const targetUserId = session?.user?.id;
@@ -158,47 +155,33 @@ function JobTrackerContent() {
   }, [isPendingRedirect, targetUserId, router]);
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black min-h-screen">
-      <main className="flex flex-1 w-full max-w-4xl flex-col items-stretch justify-start py-8 px-4 sm:px-8 bg-white dark:bg-black">
-        <div className="space-y-8">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">
-              AI Job Tracker
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              Paste a job description and let AI extract structured information
-            </p>
-          </div>
-
-          {/* Input Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Job Description</CardTitle>
-              <CardDescription>
-                Paste the complete job posting here
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Textarea
-                placeholder="Paste your job description here..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="min-h-64 resize-none"
+    <div className="">
+      <div className="">
+        <div className="space-y-4">
+          <div>
+            {/* <h3>Job Description</h3>
+            <p>Paste the complete job posting here</p> */}
+            <Textarea
+              placeholder="Paste a job description and let AI extract structured information..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="min-h-64 resize-none rounded-xl"
+            />
+            <div className="flex flex-col gap-3 md:flex-row items-center justify-between mt-4">
+              <ModelSelector
+                value={selectedModel}
+                onValueChange={setSelectedModel}
               />
-
-              <div className="flex flex-col gap-3 md:flex-row items-center justify-between">
-                <ModelSelector value={selectedModel} onValueChange={setSelectedModel} />
-                <Button
-                  onClick={handleExtract}
-                  disabled={loading || !description.trim()}
-                  className="w-full md:w-50"
-                  size="lg"
-                >
-                  {loading ? 'Extracting...' : 'Extract Job Information'}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+              <Button
+                onClick={handleExtract}
+                disabled={loading || !description.trim()}
+                className="w-full md:w-50"
+                size="lg"
+              >
+                {loading ? 'Extracting...' : 'Extract Job Information'}
+              </Button>
+            </div>
+          </div>
 
           {/* Error Message */}
           {error && (
@@ -213,7 +196,7 @@ function JobTrackerContent() {
           {result && (
             <div>
               <ShowExtractedResult result={result} />
-              <div className="border-t pt-4 flex gap-3">
+              <div className="pt-4 flex gap-3">
                 {saveSuccess && (
                   <p className="text-green-600 dark:text-green-400 text-sm">
                     Job saved successfully!
@@ -231,7 +214,7 @@ function JobTrackerContent() {
             </div>
           )}
         </div>
-      </main>
+      </div>
     </div>
   );
 }
