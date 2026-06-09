@@ -53,7 +53,7 @@ const Navbar = ({
   className,
 }: NavbarProps) => {
   const { data: session } = authClient.useSession();
-  console.log(session);
+  // console.log(session);
   return (
     <section className={cn('py-4', className)}>
       <div className="mx-auto container max-w-[1440px] px-4">

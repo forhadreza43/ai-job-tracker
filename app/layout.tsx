@@ -46,7 +46,7 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        {/* <Navbar /> */}
+        <Navbar />
         <main>
           <TooltipProvider>{children}</TooltipProvider>
         </main>

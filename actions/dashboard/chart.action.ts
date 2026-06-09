@@ -36,3 +36,97 @@ export async function getCompanyJobCounts(userId: string) {
     throw new Error('Failed to load chart data.');
   }
 }
+
+export interface JobTypeStatItem {
+  jobType: string;
+  count: number;
+  fill: string;
+}
+
+export async function getJobTypeDistribution(
+  userId: string
+): Promise<JobTypeStatItem[]> {
+  if (!userId) {
+    console.error(
+      'getJobTypeDistribution: Missing authorized userId argument.'
+    );
+    return [];
+  }
+
+  try {
+    const stats = await prisma.job.groupBy({
+      by: ['jobType'],
+      where: {
+        userId: userId,
+      },
+      _count: {
+        jobType: true,
+      },
+    });
+
+    return stats.map((item) => {
+      const typeKey = item.jobType
+        ? item.jobType.toLowerCase().replace(/_/g, '-')
+        : 'other';
+
+      return {
+        jobType: typeKey,
+        count: item._count.jobType,
+        fill: `var(--color-${typeKey})`,
+      };
+    });
+  } catch (error) {
+    console.error(
+      `Failed to fetch job type distribution for user ${userId}:`,
+      error
+    );
+    return [];
+  }
+}
+
+export interface WorkModeStatItem {
+  workMode: string;
+  count: number;
+  fill: string;
+}
+
+export async function getWorkModeDistribution(
+  userId: string
+): Promise<WorkModeStatItem[]> {
+  if (!userId) {
+    console.error(
+      'getWorkModeDistribution: Missing authorized userId argument.'
+    );
+    return [];
+  }
+
+  try {
+    const stats = await prisma.job.groupBy({
+      by: ['workMode'],
+      where: {
+        userId: userId,
+      },
+      _count: {
+        workMode: true,
+      },
+    });
+
+    return stats.map((item) => {
+      const modeKey = item.workMode
+        ? item.workMode.toLowerCase().replace(/_/g, '-')
+        : 'other';
+
+      return {
+        workMode: modeKey,
+        count: item._count.workMode,
+        fill: `var(--color-${modeKey})`,
+      };
+    });
+  } catch (error) {
+    console.error(
+      `Failed to fetch work mode distribution for user ${userId}:`,
+      error
+    );
+    return [];
+  }
+}

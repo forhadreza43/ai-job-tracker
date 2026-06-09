@@ -1,8 +1,7 @@
 'use server';
 
-import { ApplicationStatus } from "@/generated/prisma/browser";
-import { prisma } from "@/lib/prisma";
-
+import { ApplicationStatus } from '@/generated/prisma/browser';
+import { prisma } from '@/lib/prisma';
 
 export async function getDashboardStats(userId: string) {
   if (!userId) {
@@ -10,7 +9,6 @@ export async function getDashboardStats(userId: string) {
   }
 
   try {
-
     const [generalStats, bookmarkedCount, statusGroups, uniqueCompanies] =
       await Promise.all([
         // 1. Get total jobs count
@@ -75,3 +73,4 @@ export async function getDashboardStats(userId: string) {
     throw new Error('Failed to load dashboard metrics.');
   }
 }
+
