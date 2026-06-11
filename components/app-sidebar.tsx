@@ -47,14 +47,14 @@ const data = {
       icon: <LayoutDashboardIcon />,
     },
     {
+      title: 'Manage Job',
+      url: '/dashboard/manage-jobs',
+      icon: <ListIcon />,
+    },
+    {
       title: 'Create Job',
       url: '/dashboard/create-job',
       icon: <CirclePlusIcon />,
-    },
-    {
-      title: 'Lifecycle',
-      url: '#',
-      icon: <ListIcon />,
     },
     {
       title: 'Analytics',

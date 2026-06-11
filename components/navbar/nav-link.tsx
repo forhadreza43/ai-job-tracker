@@ -3,9 +3,11 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import { menu } from './navbar.constants';
+import { authClient } from '@/lib/auth-client';
 
 export const NavLink = ({ flag }: { flag?: string }) => {
   const pathname = usePathname();
+  const { data: session } = authClient.useSession();
   if (flag === 'small') {
     return menu.map((item, idx) => (
       <Link
@@ -32,6 +34,9 @@ export const NavLink = ({ flag }: { flag?: string }) => {
         {
           'text-primary underline decoration-2 underline-offset-4 duration-300':
             item.url === pathname,
+        },
+        {
+          hidden: item.url === '/dashboard' && !session?.user,
         }
       )}
     >

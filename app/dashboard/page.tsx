@@ -1,11 +1,10 @@
 
-import { DataTable } from '@/components/data-table';
+
 import { SectionCards } from '@/components/section-cards';
 import { Suspense } from 'react';
 import { StatsSkeleton } from '@/components/skeleton/section-cards-skeleton';
 import { BarChartSkeleton } from '@/components/skeleton/barchart-skeleton';
 import { Barchart } from '@/components/barchart';
-import data from './data.json';
 import {PieChartSection} from '@/components/piechart-section'
 export default function Page() {
   return (
@@ -18,7 +17,7 @@ export default function Page() {
       </Suspense>
       <PieChartSection/>
 
-      <DataTable data={data} />
+      
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { House, Info, UsersRound } from 'lucide-react';
+import { LayoutDashboard, UsersRound } from 'lucide-react';
 
 export type MenuItem = {
   title: string;
@@ -17,11 +17,11 @@ export const logo = {
 export const menu: MenuItem[] = [
   // { title: 'Home', url: '/', icon: <House size={16} /> },
   { title: 'Jobs', url: '/jobs', icon: <UsersRound size={16} /> },
-  // {
-  //   title: 'About',
-  //   url: '/',
-  //   icon: <Info size={16} />,
-  // },
+  {
+    title: 'Dashboard',
+    url: '/dashboard',
+    icon: <LayoutDashboard size={16} />,
+  },
 ];
 
 export const auth = {

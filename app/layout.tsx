@@ -3,7 +3,6 @@ import { Geist, Geist_Mono, DM_Sans, Raleway } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { Navbar } from '@/components/navbar/navbar';
 
 const ralewayHeading = Raleway({
   subsets: ['latin'],
@@ -46,7 +45,7 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar />
+        {/* <Navbar /> */}
         <main>
           <TooltipProvider>{children}</TooltipProvider>
         </main>

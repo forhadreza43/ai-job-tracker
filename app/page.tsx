@@ -17,6 +17,7 @@ import { ModelSelector, DEFAULT_MODEL } from '@/components/model-selector';
 import { authClient } from '@/lib/auth-client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ShowExtractedResult from '@/components/show-extracted-result';
+import { Navbar } from '@/components/navbar/navbar';
 
 const PENDING_JOB_KEY = 'pendingJobData';
 
@@ -123,7 +124,6 @@ function JobTrackerContent() {
     await savePendingJob(session.user.id, result);
   };
 
-
   const isPendingRedirect = searchParams?.get('pending') === 'true';
   const targetUserId = session?.user?.id;
 
@@ -187,7 +187,10 @@ function JobTrackerContent() {
               />
 
               <div className="flex flex-col gap-3 md:flex-row items-center justify-between">
-                <ModelSelector value={selectedModel} onValueChange={setSelectedModel} />
+                <ModelSelector
+                  value={selectedModel}
+                  onValueChange={setSelectedModel}
+                />
                 <Button
                   onClick={handleExtract}
                   disabled={loading || !description.trim()}
@@ -238,14 +241,17 @@ function JobTrackerContent() {
 
 export default function Home() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          Loading Extraction Engine...
-        </div>
-      }
-    >
-      <JobTrackerContent />
-    </Suspense>
+    <>
+    <Navbar/>
+      <Suspense
+        fallback={
+          <div className="min-h-screen flex items-center justify-center">
+            Loading Extraction Engine...
+          </div>
+        }
+      >
+        <JobTrackerContent />
+      </Suspense>
+    </>
   );
 }
