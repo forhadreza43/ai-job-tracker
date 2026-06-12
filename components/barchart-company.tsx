@@ -14,7 +14,6 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from '@/components/ui/chart';
-import { useState, useEffect } from 'react';
 import {useIsMobile} from '@/hooks/use-mobile'
 
 const chartConfig = {
@@ -40,7 +39,7 @@ export function CompanyBarChart({ chartData }: { chartData: ChartData[] }) {
       <CardContent>
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[250px] w-full"
+          className="aspect-auto h-62.5 w-full"
         >
           <BarChart accessibilityLayer data={chartData} margin={{ top: 20 }}>
             <CartesianGrid vertical={false} />

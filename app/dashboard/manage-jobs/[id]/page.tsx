@@ -13,7 +13,6 @@ import { getCompany, getJobById } from '@/actions/job/job.action';
 import { CircleCheckBig } from 'lucide-react';
 
 
-
 export default async function JobDetailsPage({
   params,
 }: {
@@ -28,10 +27,10 @@ export default async function JobDetailsPage({
   }
 
   return (
-    <div className="container max-w-[1440px] mx-auto px-4 py-10">
+    <div >
       <div className="mb-6">
         <Button variant="outline" asChild>
-          <Link href="/jobs">&larr; Back to Jobs</Link>
+          <Link href="/dashboard/manage-jobs">&larr; Back to Jobs</Link>
         </Button>
       </div>
 

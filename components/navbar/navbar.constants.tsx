@@ -16,7 +16,7 @@ export const logo = {
 
 export const menu: MenuItem[] = [
   // { title: 'Home', url: '/', icon: <House size={16} /> },
-  { title: 'Jobs', url: '/jobs', icon: <UsersRound size={16} /> },
+  // { title: 'Jobs', url: '/jobs', icon: <UsersRound size={16} /> },
   {
     title: 'Dashboard',
     url: '/dashboard',

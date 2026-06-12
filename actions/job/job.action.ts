@@ -1,20 +1,24 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
+import { cacheTag } from 'next/cache';
 
 export async function getJobs(userId: string) {
+  // 'use cache';
+  if (!userId) return [];
+
   try {
+    // cacheTag(`jobs-user-${userId}`);
+
     const jobs = await prisma.job.findMany({
-      where: {
-        userId: userId,
-      },
-      include: {
-        company: true, 
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
+      where: { userId: userId },
+      include: { company: true },
+      orderBy: { createdAt: 'desc' },
     });
+
+    // jobs.forEach((job) => {
+    //   cacheTag(`job-${job.id}`);
+    // });
 
     return jobs;
   } catch (error) {

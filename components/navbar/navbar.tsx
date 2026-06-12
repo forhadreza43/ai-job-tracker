@@ -56,7 +56,7 @@ const Navbar = ({
   // console.log(session);
   return (
     <section className={cn('py-4', className)}>
-      <div className="mx-auto container max-w-[1440px] px-4">
+      <div className="mx-auto container max-w-360 px-4">
         {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">
           <div className="flex items-center gap-6">
