@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma';
 import { JobExtraction } from '@/types/job-extraction';
+import { JobType, WorkMode, ApplicationStatus } from '@/generated/prisma/client';
 
 export interface SaveJobResult {
   success: boolean;
@@ -117,9 +118,9 @@ interface GetJobsParams {
 
   search?: string;
 
-  status?: string;
-  jobType?: string;
-  workMode?: string;
+  status?: ApplicationStatus;
+  jobType?: JobType;
+  workMode?: WorkMode;
 
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';

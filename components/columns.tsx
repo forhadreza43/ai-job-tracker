@@ -83,21 +83,20 @@ export const columns: ColumnDef<JobWithCompany>[] = [
   },
   {
     id: 'select',
-    header: ({ table }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected()
-              ? true
-              : table.getIsSomePageRowsSelected()
-                ? 'indeterminate'
-                : false
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      </div>
-    ),
+    header: ({ table }) => {
+      const isChecked = table.getIsAllPageRowsSelected();
+      const isIndeterminate = table.getIsSomePageRowsSelected() && !isChecked;
+      return (
+        <div className="flex items-center justify-center">
+          <Checkbox
+            checked={isChecked}
+            indeterminate={isIndeterminate}
+            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+            aria-label="Select all"
+          />
+        </div>
+      );
+    },
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
         <Checkbox

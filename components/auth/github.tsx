@@ -18,7 +18,6 @@ const GitHubAuth = () => {
 
       const result = await authClient.signIn.social({
         provider: 'github',
-        // FIX: Redirects back to home page with parameter preserved upon OAuth handshake completion
         callbackURL: hasPendingJob ? '/?pending=true' : '/',
       });
 
@@ -28,10 +27,15 @@ const GitHubAuth = () => {
         return;
       }
 
-      router.push(hasPendingJob ? '/?pending=true' : '/');
+      if (hasPendingJob) {
+        router.push('/?pending=true');
+      } else {
+        router.push('/');
+      }
       router.refresh();
     });
   };
+
   return (
     <>
       <Button

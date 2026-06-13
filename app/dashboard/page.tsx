@@ -16,8 +16,6 @@ export default function Page() {
         <Barchart />
       </Suspense>
       <PieChartSection/>
-
-      
     </>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { Suspense } from 'react';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -18,8 +18,8 @@ import {
   CommandIcon,
   CirclePlusIcon,
 } from 'lucide-react';
-import { authClient } from '@/lib/auth-client';
 import Link from 'next/link';
+import { DashboardUserMenuSkeleton } from '@/components/skeleton/dashboard-user-skeleton';
 
 const data = {
   user: {
@@ -47,12 +47,6 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: session } = authClient.useSession();
-  const userData = {
-    name: session?.user?.name as string,
-    email: session?.user?.email as string,
-    avatar: session?.user?.image as string,
-  };
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -74,7 +68,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={userData} />
+        <Suspense fallback={<DashboardUserMenuSkeleton />}>
+          <NavUser />
+        </Suspense>
       </SidebarFooter>
     </Sidebar>
   );

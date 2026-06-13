@@ -30,12 +30,10 @@ export function LoginForm({
     Record<string, string[]> | undefined
   >();
   const [error, setError] = React.useState<string | null>(null);
-
   const pendingJob =
     typeof window !== 'undefined'
       ? localStorage.getItem('pendingJobData')
       : null;
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);

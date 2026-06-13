@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import {
   closestCenter,
   DndContext,
@@ -84,6 +83,7 @@ import {
 import { Job, Company } from '@/generated/prisma/client';
 import { ApplicationStatus } from '@/generated/prisma/enums';
 import { columns } from './columns';
+import { useCallback, useId, useMemo, useState } from 'react';
 
 export type JobWithCompany = Job & {
   company: Company | null;
@@ -123,26 +123,24 @@ export function DataTable({
   data: JobWithCompany[];
   userId: string;
 }) {
-  const [data, setData] = React.useState(() => initialData);
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [pagination, setPagination] = React.useState({
+  const [data, setData] = useState(() => initialData);
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
   });
-  const sortableId = React.useId();
+
+  const sortableId = useId();
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
     useSensor(KeyboardSensor, {})
   );
 
-  const updateRowStatus = React.useCallback((jobId: string, status: string) => {
+  const updateRowStatus = useCallback((jobId: string, status: string) => {
     setData((prev) =>
       prev.map((row) =>
         row.id === jobId ? { ...row, status: status as ApplicationStatus } : row
@@ -150,7 +148,7 @@ export function DataTable({
     );
   }, []);
 
-  const updateRowInterviewDate = React.useCallback(
+  const updateRowInterviewDate = useCallback(
     (jobId: string, interviewDate: Date | null) => {
       setData((prev) =>
         prev.map((row) => (row.id === jobId ? { ...row, interviewDate } : row))
@@ -159,11 +157,11 @@ export function DataTable({
     []
   );
 
-  const removeRow = React.useCallback((jobId: string) => {
+  const removeRow = useCallback((jobId: string) => {
     setData((prev) => prev.filter((row) => row.id !== jobId));
   }, []);
 
-  const dataIds = React.useMemo<UniqueIdentifier[]>(
+  const dataIds = useMemo<UniqueIdentifier[]>(
     () => data?.map(({ id }) => id) || [],
     [data]
   );

@@ -23,23 +23,15 @@ import {
   BellIcon,
   LogOutIcon,
 } from 'lucide-react';
-import { authClient } from '@/lib/auth-client';
-import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/auth-provider';
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}) {
+export function NavUser() {
   const { isMobile } = useSidebar();
-  const router = useRouter();
-  const handleSignOut = async () => {
-    await authClient.signOut();
-    router.refresh();
+  const auth = useAuth();
+  const user = {
+    name: auth.user?.name || 'Guest User',
+    email: auth.user?.email || 'guest@example.com',
+    avatar: auth.user?.image || '/default-avatar.jpg',
   };
   return (
     <SidebarMenu>
@@ -50,9 +42,9 @@ export function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg grayscale">
+              <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">JT</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -99,7 +91,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleSignOut}>
+            <DropdownMenuItem onClick={() => auth.logout()}>
               <LogOutIcon />
               Log out
             </DropdownMenuItem>

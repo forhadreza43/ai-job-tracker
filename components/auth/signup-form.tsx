@@ -59,7 +59,6 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         return;
       }
 
-      // FIX: Check search parameters or local storage to choose correct redirection after registration
       const isPendingJob =
         searchParams?.get('pending') === 'true' ||
         !!localStorage.getItem('pendingJobData');

@@ -15,10 +15,9 @@ const GoogleAuth = () => {
       const hasPendingJob =
         typeof window !== 'undefined' &&
         !!localStorage.getItem('pendingJobData');
-
+      
       const result = await authClient.signIn.social({
         provider: 'google',
-        // FIX: Passes callback target explicitly to social provider redirect configuration
         callbackURL: hasPendingJob ? '/?pending=true' : '/',
       });
 
@@ -28,7 +27,11 @@ const GoogleAuth = () => {
         return;
       }
 
-      router.push(hasPendingJob ? '/?pending=true' : '/');
+      if (hasPendingJob) {
+        router.push('/?pending=true');
+      } else {
+        router.push('/');
+      }
       router.refresh();
     });
   };
