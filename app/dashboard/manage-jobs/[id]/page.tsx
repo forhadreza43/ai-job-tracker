@@ -1,18 +1,26 @@
 import JobDetails from '@/components/job-details';
 import { JobDetailsSkeleton } from '@/components/skeleton/job-details-skeleton';
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 
-const JobDetailsPage = async ({
+const JobDetailsPage = ({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) => {
-  const resolvedParams = await params;
   return (
     <Suspense fallback={<JobDetailsSkeleton />}>
-      <JobDetails id={resolvedParams?.id} />
+      <JobDetailsLoader params={params} />
     </Suspense>
   );
 };
+
+async function JobDetailsLoader({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  return <JobDetails id={id} />;
+}
 
 export default JobDetailsPage;

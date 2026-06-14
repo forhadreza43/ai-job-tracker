@@ -1,6 +1,7 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
+import { updateTag } from 'next/cache';
 import { JobExtraction } from '@/types/job-extraction';
 import { JobType, WorkMode, ApplicationStatus } from '@/generated/prisma/client';
 
@@ -73,6 +74,8 @@ export async function saveJob(
         aiConfidence: extraction.confidence,
       },
     });
+
+    updateTag(`jobs-user-${userId}`);
 
     return {
       success: true,

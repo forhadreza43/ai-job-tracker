@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { DashboardUserMenuSkeleton } from '@/components/skeleton/dashboard-user-skeleton';
+import { SidebarNavigationSkeleton } from '@/components/skeleton/sidebar-navigation-skeleton';
 
 const data = {
   user: {
@@ -65,7 +66,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <Suspense fallback={<SidebarNavigationSkeleton />}>
+          <NavMain items={data.navMain} />
+        </Suspense>
       </SidebarContent>
       <SidebarFooter>
         <Suspense fallback={<DashboardUserMenuSkeleton />}>

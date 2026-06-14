@@ -2,6 +2,7 @@ import { AppSidebar } from '@/components/app-sidebar';
 import { SiteHeader } from '@/components/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { Skeleton } from '@/components/ui/skeleton';
+import { DashboardUserMenuSkeleton } from '@/components/skeleton/dashboard-user-skeleton';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
