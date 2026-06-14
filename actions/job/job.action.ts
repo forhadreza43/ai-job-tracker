@@ -1,14 +1,15 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
-import { cacheTag } from 'next/cache';
+// import { cacheLife, cacheTag } from 'next/cache';
 
 export async function getJobs(userId: string) {
   // 'use cache';
+  // cacheLife('max');
+  // cacheTag(`jobs-user-${userId}`);
   if (!userId) return [];
 
   try {
-    // cacheTag(`jobs-user-${userId}`);
 
     const jobs = await prisma.job.findMany({
       where: { userId: userId },

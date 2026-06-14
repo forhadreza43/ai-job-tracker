@@ -23,9 +23,9 @@ import { DashboardUserMenuSkeleton } from '@/components/skeleton/dashboard-user-
 
 const data = {
   user: {
-    name: 'shadcn',
+    name: 'Guest User',
     email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
+    avatar: '/default-avatar.jpg',
   },
   navMain: [
     {

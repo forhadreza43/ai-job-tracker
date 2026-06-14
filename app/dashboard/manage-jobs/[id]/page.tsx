@@ -10,7 +10,7 @@ const JobDetailsPage = async ({
   const resolvedParams = await params;
   return (
     <Suspense fallback={<JobDetailsSkeleton />}>
-      <JobDetails id={resolvedParams.id} />
+      <JobDetails id={resolvedParams?.id} />
     </Suspense>
   );
 };

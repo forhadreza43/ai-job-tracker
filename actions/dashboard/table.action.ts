@@ -48,7 +48,7 @@ export async function updateJobStatus(
         message: 'Job record not found or unauthorized.',
       };
     }
-
+    // updateTag(`jobs-${validatedData.jobId}`);
     revalidatePath('/dashboard');
 
     return {
@@ -106,7 +106,7 @@ export async function deleteJobAction(
       };
     }
 
-    // updateTag(`jobs-${validatedData.jobId}`);
+    // updateTag(`jobs-user-${validatedData.userId}`);
     revalidatePath('/dashboard');
 
     return {
@@ -171,6 +171,7 @@ export async function updateInterviewDate(
         message: 'Job record not found or unauthorized.',
       };
     }
+    // updateTag(`job-${validatedData.jobId}`);
     revalidatePath('/dashboard');
     return {
       success: true,
