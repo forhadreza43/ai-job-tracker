@@ -80,7 +80,7 @@ export async function saveJob(
     });
 
     updateTag(`jobs-user-${userId}`);
-    revalidatePath('/dashboard/manage-jobs');
+    revalidatePath('/dashboard');
 
     return {
       success: true,

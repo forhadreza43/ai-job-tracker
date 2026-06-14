@@ -6,7 +6,7 @@ import { prisma } from '@/lib/prisma';
 
 export const auth = betterAuth({
   appName: 'AI Job Tracker',
-  baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3000',
+  baseURL: process.env.BETTER_AUTH_URL!,
   // basePath: '/api/auth',
   secret: process.env.BETTER_AUTH_SECRET,
   database: prismaAdapter(prisma, {
