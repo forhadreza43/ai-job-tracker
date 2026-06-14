@@ -34,7 +34,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { GripVerticalIcon, LoaderIcon, MoreHorizontal } from 'lucide-react';
-import { Job, Company } from '@/generated/prisma/client';
+import { SerializedJobWithCompany } from '@/lib/data/serialize-job';
 import { ArrowUpDown } from 'lucide-react';
 import {
   deleteJobAction,
@@ -43,9 +43,7 @@ import {
 import { DatePicker } from '@/components/date-picker';
 import Link from 'next/link';
 
-export type JobWithCompany = Job & {
-  company: Company | null;
-};
+export type JobWithCompany = SerializedJobWithCompany;
 
 export const STATUS = [
   'SAVED',

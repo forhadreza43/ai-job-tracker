@@ -1,7 +1,11 @@
 import { prisma } from '@/lib/prisma';
+import {
+  serializeJob,
+  type SerializedJobWithCompany,
+} from '@/lib/data/serialize-job';
 import { cacheLife, cacheTag } from 'next/cache';
 
-export async function getJobs(userId: string) {
+export async function getJobs(userId: string): Promise<SerializedJobWithCompany[]> {
   'use cache';
   cacheLife('max');
   cacheTag(`jobs-user-${userId}`);
@@ -19,7 +23,7 @@ export async function getJobs(userId: string) {
       cacheTag(`job-${job.id}`);
     }
 
-    return jobs;
+    return jobs.map(serializeJob);
   } catch (error) {
     console.error('Failed to fetch jobs:', error);
     throw new Error('Failed to fetch jobs');

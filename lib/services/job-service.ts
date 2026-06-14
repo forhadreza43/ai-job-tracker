@@ -1,9 +1,13 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
-import { updateTag } from 'next/cache';
+import { revalidatePath, updateTag } from 'next/cache';
 import { JobExtraction } from '@/types/job-extraction';
-import { JobType, WorkMode, ApplicationStatus } from '@/generated/prisma/client';
+import {
+  JobType,
+  WorkMode,
+  ApplicationStatus,
+} from '@/generated/prisma/client';
 
 export interface SaveJobResult {
   success: boolean;
@@ -76,6 +80,7 @@ export async function saveJob(
     });
 
     updateTag(`jobs-user-${userId}`);
+    revalidatePath('/dashboard/manage-jobs');
 
     return {
       success: true,

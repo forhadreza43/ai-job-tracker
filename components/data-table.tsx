@@ -80,14 +80,12 @@ import {
   ChevronRightIcon,
   ChevronsRightIcon,
 } from 'lucide-react';
-import { Job, Company } from '@/generated/prisma/client';
+import { SerializedJobWithCompany } from '@/lib/data/serialize-job';
 import { ApplicationStatus } from '@/generated/prisma/enums';
 import { columns } from './columns';
 import { useCallback, useId, useMemo, useState } from 'react';
 
-export type JobWithCompany = Job & {
-  company: Company | null;
-};
+export type JobWithCompany = SerializedJobWithCompany;
 
 const columnsWithStatus: ColumnDef<JobWithCompany>[] = [...columns];
 
