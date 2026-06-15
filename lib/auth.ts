@@ -5,7 +5,7 @@ import { nextCookies } from 'better-auth/next-js';
 import { prisma } from '@/lib/prisma';
 
 export const auth = betterAuth({
-  appName: 'AI Job Tracker',
+  appName: 'APPLI-TRACT',
   baseURL: process.env.BETTER_AUTH_URL!,
   // basePath: '/api/auth',
   secret: process.env.BETTER_AUTH_SECRET,

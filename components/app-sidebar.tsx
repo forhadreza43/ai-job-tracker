@@ -21,6 +21,7 @@ import {
 import Link from 'next/link';
 import { DashboardUserMenuSkeleton } from '@/components/skeleton/dashboard-user-skeleton';
 import { SidebarNavigationSkeleton } from '@/components/skeleton/sidebar-navigation-skeleton';
+import { logo } from './navbar/navbar.constants';
 
 const data = {
   user: {
@@ -58,9 +59,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <Link href="/dashboard">
+              <Link href="/">
                 <CommandIcon className="size-5!" />
-                <span className="text-base font-semibold">AI Job Tracker</span>
+                <span className="text-base font-semibold">{logo.title}</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

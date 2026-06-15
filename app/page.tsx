@@ -158,83 +158,68 @@ function JobTrackerContent() {
   }, [isPendingRedirect, targetUserId, router]);
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black min-h-screen">
-      <main className="flex flex-1 w-full max-w-4xl flex-col items-stretch justify-start py-8 px-4 sm:px-8 bg-white dark:bg-black">
-        <div className="space-y-8">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">
-              AI Job Tracker
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              Paste a job description and let AI extract structured information
-            </p>
+    <div className="space-y-8 container max-w-360 mx-auto px-4 mt-4">
+      {/* Input Card */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Job Description</CardTitle>
+          <CardDescription>Paste the complete job posting here</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Textarea
+            placeholder="Paste your job description here..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="min-h-64 md:min-h-80 lg:min-h-120 resize-none"
+          />
+
+          <div className="flex flex-col gap-3 md:flex-row items-center justify-between">
+            <ModelSelector
+              value={selectedModel}
+              onValueChange={setSelectedModel}
+            />
+            <Button
+              onClick={handleExtract}
+              disabled={loading || !description.trim()}
+              className="w-full md:w-50"
+              size="lg"
+            >
+              {loading ? 'Extracting...' : 'Extract Job Information'}
+            </Button>
           </div>
+        </CardContent>
+      </Card>
 
-          {/* Input Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Job Description</CardTitle>
-              <CardDescription>
-                Paste the complete job posting here
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Textarea
-                placeholder="Paste your job description here..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="min-h-64 resize-none"
-              />
+      {/* Error Message */}
+      {error && (
+        <Card className="border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950">
+          <CardContent className="pt-6">
+            <p className="text-red-800 dark:text-red-200">{error}</p>
+          </CardContent>
+        </Card>
+      )}
 
-              <div className="flex flex-col gap-3 md:flex-row items-center justify-between">
-                <ModelSelector
-                  value={selectedModel}
-                  onValueChange={setSelectedModel}
-                />
-                <Button
-                  onClick={handleExtract}
-                  disabled={loading || !description.trim()}
-                  className="w-full md:w-50"
-                  size="lg"
-                >
-                  {loading ? 'Extracting...' : 'Extract Job Information'}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Error Message */}
-          {error && (
-            <Card className="border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950">
-              <CardContent className="pt-6">
-                <p className="text-red-800 dark:text-red-200">{error}</p>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Results Block */}
-          {result && (
-            <div>
-              <ShowExtractedResult result={result} />
-              <div className="border-t pt-4 flex gap-3">
-                {saveSuccess && (
-                  <p className="text-green-600 dark:text-green-400 text-sm">
-                    Job saved successfully!
-                  </p>
-                )}
-                <Button
-                  onClick={handleSaveJob}
-                  className="ml-auto"
-                  disabled={saveSuccess}
-                  variant={saveSuccess ? 'outline' : 'default'}
-                >
-                  {saving ? 'Saving...' : saveSuccess ? 'Saved!' : 'Save Job'}
-                </Button>
-              </div>
-            </div>
-          )}
+      {/* Results Block */}
+      {result && (
+        <div>
+          <ShowExtractedResult result={result} />
+          <div className="border-t pt-4 flex gap-3">
+            {saveSuccess && (
+              <p className="text-green-600 dark:text-green-400 text-sm">
+                Job saved successfully!
+              </p>
+            )}
+            <Button
+              onClick={handleSaveJob}
+              className="ml-auto"
+              disabled={saveSuccess}
+              variant={saveSuccess ? 'outline' : 'default'}
+            >
+              {saving ? 'Saving...' : saveSuccess ? 'Saved!' : 'Save Job'}
+            </Button>
+          </div>
         </div>
-      </main>
+      )}
     </div>
   );
 }

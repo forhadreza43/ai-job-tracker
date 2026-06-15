@@ -44,7 +44,7 @@ const Navbar = ({
   const { data: session } = authClient.useSession();
   // console.log(session);
   return (
-    <section className={cn('py-4', className)}>
+    <section className={cn('py-4 shadow', className)}>
       <div className="mx-auto container max-w-360 px-4">
         {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">
