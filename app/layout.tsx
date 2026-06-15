@@ -45,7 +45,7 @@ export default function RootLayout({
         ralewayHeading.variable
       )}
     >
-      <body className="min-h-full flex flex-col bg-zinc-50">
+      <body className="min-h-full flex flex-col bg-zinc-100">
         {/* <Navbar /> */}
         <AuthProvider>
           <TooltipProvider>
