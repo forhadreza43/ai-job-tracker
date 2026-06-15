@@ -56,6 +56,25 @@ export const STATUS = [
   'WITHDRAWN',
 ] as const;
 
+const statusStyles: Record<string, string> = {
+  SAVED:
+    'bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200 border-zinc-200 dark:border-zinc-700',
+  APPLIED:
+    'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border-blue-200 dark:border-blue-900',
+  SHORTLISTED:
+    'bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border-purple-200 dark:border-purple-900',
+  INTERVIEW:
+    'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 border-amber-200 dark:border-amber-900',
+  ASSESSMENT:
+    'bg-cyan-50 text-cyan-700 dark:bg-cyan-950/40 dark:text-cyan-300 border-cyan-200 dark:border-cyan-900',
+  OFFER:
+    'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900',
+  REJECTED:
+    'bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-300 border-red-200 dark:border-red-900',
+  WITHDRAWN:
+    'bg-orange-50 text-orange-700 dark:bg-orange-950/40 dark:text-orange-300 border-orange-200 dark:border-orange-900',
+};
+
 function DragHandle({ id }: { id: string }) {
   const { attributes, listeners } = useSortable({ id });
 
@@ -89,7 +108,9 @@ export const columns: ColumnDef<JobWithCompany>[] = [
           <Checkbox
             checked={isChecked}
             indeterminate={isIndeterminate}
-            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+            onCheckedChange={(value) =>
+              table.toggleAllPageRowsSelected(!!value)
+            }
             aria-label="Select all"
           />
         </div>
@@ -150,11 +171,17 @@ export const columns: ColumnDef<JobWithCompany>[] = [
     header: 'Status',
     cell: ({ row }) => {
       const status = row.getValue('status') as string;
-      const variant =
-        status === 'APPLIED' || status === 'INTERVIEW'
-          ? 'default'
-          : 'secondary';
-      return <Badge variant={variant}>{status.replace('_', ' ')}</Badge>;
+      const dynamicClasses =
+        statusStyles[status] || 'bg-secondary text-secondary-foreground';
+
+      return (
+        <Badge
+          variant="outline"
+          className={`${dynamicClasses} font-medium capitalize tracking-wide transition-colors`}
+        >
+          {status.toLowerCase().replace('_', ' ')}
+        </Badge>
+      );
     },
   },
   {
@@ -206,7 +233,7 @@ export const columns: ColumnDef<JobWithCompany>[] = [
   },
   {
     id: 'changeStatusAction',
-    header: 'Status',
+    header: 'Status Action',
     cell: (props) => {
       const meta = props.table.options.meta as {
         sessionUserId: string;
