@@ -18,6 +18,7 @@ import { authClient } from '@/lib/auth-client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ShowExtractedResult from '@/components/show-extracted-result';
 import { Navbar } from '@/components/navbar/navbar';
+import { JobExtractorSkeleton } from '@/components/skeleton/job-extractor-skeleton';
 
 const PENDING_JOB_KEY = 'pendingJobData';
 
@@ -229,13 +230,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <Suspense
-        fallback={
-          <div className="min-h-screen flex items-center justify-center">
-            Loading Extraction Engine...
-          </div>
-        }
-      >
+      <Suspense fallback={<JobExtractorSkeleton />}>
         <JobTrackerContent />
       </Suspense>
     </>
