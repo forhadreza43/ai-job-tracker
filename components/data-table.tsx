@@ -248,7 +248,7 @@ export function DataTable({
                 <ChevronDownIcon data-icon="inline-end" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-32">
+            <DropdownMenuContent align="end" className="w-45">
               {table
                 .getAllColumns()
                 .filter((column) => column.getCanHide())
