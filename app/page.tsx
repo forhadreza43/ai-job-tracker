@@ -122,6 +122,7 @@ function JobTrackerContent() {
     }
 
     await savePendingJob(session.user.id, result);
+    router.push('/dashboard');
   };
 
   const isPendingRedirect = searchParams?.get('pending') === 'true';
@@ -142,7 +143,7 @@ function JobTrackerContent() {
           const executeAutoSave = async () => {
             const success = await savePendingJob(targetUserId, jobData);
             if (success) {
-              router.replace('/');
+              router.replace('/dashboard');
             } else {
               // Reset guard tracking if the database fails so the user can re-try
               hasAutoSaved.current = false;
@@ -227,7 +228,7 @@ function JobTrackerContent() {
 export default function Home() {
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <Suspense
         fallback={
           <div className="min-h-screen flex items-center justify-center">
