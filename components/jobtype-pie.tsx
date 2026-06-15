@@ -64,7 +64,7 @@ export function JobTypePieChart({ initialData }: JobTypePieChartProps) {
   }, [initialData]);
 
   return (
-    <Card className="flex flex-col w-full h-[380px] justify-between">
+    <Card className="flex flex-col w-full h-95 justify-between">
       <CardHeader className="items-center pb-0">
         <CardTitle>Job Metrics by Type</CardTitle>
         <CardDescription>Breakdown of tracking telemetry</CardDescription>
@@ -73,7 +73,7 @@ export function JobTypePieChart({ initialData }: JobTypePieChartProps) {
       <CardContent className="flex-1 pb-0 flex items-center justify-center">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square w-full max-w-[230px] px-0"
+          className="mx-auto aspect-square w-full max-w-57.5 px-0"
         >
           <PieChart>
             <ChartTooltip

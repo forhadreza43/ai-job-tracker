@@ -18,6 +18,7 @@ export function NavMain({
     title: string;
     url: string;
     icon?: React.ReactNode;
+    prefetch?: boolean;
   }[];
 }) {
   const pathname = usePathname();
@@ -27,7 +28,7 @@ export function NavMain({
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
-            <Link key={item.title} href={item.url}>
+            <Link key={item.title} href={item.url} prefetch={item.prefetch}>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   tooltip={item.title}

@@ -38,6 +38,7 @@ const data = {
       title: 'Manage Job',
       url: '/dashboard/manage-jobs',
       icon: <ListIcon />,
+      prefetch: false,
     },
     {
       title: 'Create Job',

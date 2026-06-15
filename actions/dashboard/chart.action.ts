@@ -54,20 +54,29 @@ export async function getJobTypeDistribution(
   }
 
   try {
-    const stats = await prisma.job.groupBy({
-      by: ['jobType'],
-      where: {
-        userId: userId,
-      },
-      _count: {
-        jobType: true,
-      },
-    });
+    const [stats, nullCount] = await Promise.all([
+      prisma.job.groupBy({
+        by: ['jobType'],
+        where: {
+          userId: userId,
+          jobType: { not: null },
+        },
+        _count: {
+          jobType: true,
+        },
+      }),
+      prisma.job.count({
+        where: {
+          userId: userId,
+          jobType: null,
+        },
+      }),
+    ]);
 
-    return stats.map((item) => {
-      const typeKey = item.jobType
-        ? item.jobType.toLowerCase().replace(/_/g, '-')
-        : 'other';
+    const result = stats.map((item) => {
+      const typeKey = (item.jobType ?? 'other')
+        .toLowerCase()
+        .replace(/_/g, '-');
 
       return {
         jobType: typeKey,
@@ -75,6 +84,16 @@ export async function getJobTypeDistribution(
         fill: `var(--color-${typeKey})`,
       };
     });
+
+    if (nullCount > 0) {
+      result.push({
+        jobType: 'other',
+        count: nullCount,
+        fill: 'var(--color-other)',
+      });
+    }
+
+    return result;
   } catch (error) {
     console.error(
       `Failed to fetch job type distribution for user ${userId}:`,

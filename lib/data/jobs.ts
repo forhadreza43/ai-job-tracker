@@ -3,12 +3,8 @@ import {
   serializeJob,
   type SerializedJobWithCompany,
 } from '@/lib/data/serialize-job';
-import { cacheLife, cacheTag } from 'next/cache';
 
 export async function getJobs(userId: string): Promise<SerializedJobWithCompany[]> {
-  'use cache';
-  cacheLife('max');
-  cacheTag(`jobs-user-${userId}`);
 
   if (!userId) return [];
 
@@ -19,10 +15,6 @@ export async function getJobs(userId: string): Promise<SerializedJobWithCompany[
       orderBy: { createdAt: 'desc' },
     });
 
-    for (const job of jobs) {
-      cacheTag(`job-${job.id}`);
-    }
-
     return jobs.map(serializeJob);
   } catch (error) {
     console.error('Failed to fetch jobs:', error);
@@ -31,9 +23,9 @@ export async function getJobs(userId: string): Promise<SerializedJobWithCompany[
 }
 
 export async function getJobById(jobId: string) {
-  'use cache';
-  cacheLife('max');
-  cacheTag(`job-${jobId}`);
+  // 'use cache';
+  // cacheLife('max');
+  // cacheTag(`job-${jobId}`);
 
   try {
     return await prisma.job.findUnique({

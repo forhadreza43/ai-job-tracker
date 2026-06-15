@@ -1,4 +1,4 @@
-import { LayoutDashboard, UsersRound } from 'lucide-react';
+import { LayoutDashboard} from 'lucide-react';
 
 export type MenuItem = {
   title: string;
@@ -9,9 +9,12 @@ export type MenuItem = {
 };
 
 export const logo = {
-  url: '/',
-  alt: 'logo',
-  title: 'AI Job Tracker',
+  url: '/logo.png',
+  alt: 'Brang Logo',
+  title: 'APPLI-TRACT',
+  subtitle: 'AI Personal Assistant',
+  width: 32,
+  height: 32,
 };
 
 export const menu: MenuItem[] = [

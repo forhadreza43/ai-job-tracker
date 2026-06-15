@@ -17,16 +17,11 @@ import MobileNavProfile from './mobile-nav-profile';
 import { Skeleton } from '../ui/skeleton';
 import Link from 'next/link';
 import MobileNavAction from './mobile-nav-action';
+import { logo } from '@/components/navbar/navbar.constants';
+import Logo from '@/components/navbar/logo';
 
 interface NavbarProps {
   className?: string;
-  logo?: {
-    url: string;
-    src: string;
-    alt: string;
-    title: string;
-    className?: string;
-  };
   auth?: {
     login: {
       title: string;
@@ -40,12 +35,6 @@ interface NavbarProps {
 }
 
 const Navbar = ({
-  logo = {
-    url: '/',
-    src: 'https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg',
-    alt: 'logo',
-    title: 'AI Job Tracker',
-  },
   auth = {
     login: { title: 'Login', url: '/login' },
     signup: { title: 'Sign up', url: '#' },
@@ -62,9 +51,15 @@ const Navbar = ({
           <div className="flex items-center gap-6">
             {/* Logo */}
             <a href={logo.url} className="flex items-center gap-2">
-              <span className="text-lg font-semibold tracking-tighter">
-                {logo.title}
-              </span>
+              <Logo />
+              <div className="flex flex-col leading-none">
+                <span className="text-lg font-semibold tracking-tighter">
+                  {logo.title}
+                </span>
+                <span className="text-xs  tracking-tighter -mt-2">
+                  {logo.subtitle}
+                </span>
+              </div>
             </a>
           </div>
           <div className="flex items-center gap-4">
