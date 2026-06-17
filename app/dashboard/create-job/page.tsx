@@ -11,6 +11,7 @@ import { ModelSelector, DEFAULT_MODEL } from '@/components/model-selector';
 import { authClient } from '@/lib/auth-client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ShowExtractedResult from '@/components/show-extracted-result';
+import { toast } from 'sonner';
 
 const PENDING_JOB_KEY = 'pendingJobData';
 
@@ -81,7 +82,15 @@ function JobTrackerContent() {
       return;
     }
 
-    await savePendingJob(session.user.id, result);
+    // await savePendingJob(session.user.id, result);
+    toast.promise(
+      savePendingJob(session.user.id, result),
+      {
+        loading: 'Saving job...',
+        success: 'Job saved successfully!',
+        error: (err) => `Error saving job: ${err.message}`,
+      }
+    );
   };
 
   const handleExtract = async () => {

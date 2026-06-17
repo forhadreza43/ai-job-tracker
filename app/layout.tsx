@@ -4,6 +4,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AuthProvider } from '@/hooks/auth-provider';
+import { Toaster } from '@/components/ui/sonner';
 
 const ralewayHeading = Raleway({
   subsets: ['latin'],
@@ -49,6 +50,7 @@ export default function RootLayout({
         {/* <Navbar /> */}
         <AuthProvider>
           <TooltipProvider>
+            <Toaster position="top-center" />
             <main>{children}</main>
           </TooltipProvider>
         </AuthProvider>
