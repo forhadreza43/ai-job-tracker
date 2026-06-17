@@ -79,15 +79,24 @@ export function NavUser() {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <CircleUserRoundIcon />
-                Account
+                Account{' '}
+                <span className="ml-auto text-xs text-muted-foreground border border-dashed px-1 rounded-full">
+                  Upcoming
+                </span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCardIcon />
-                Billing
+                Billing{' '}
+                <span className="ml-auto text-xs text-muted-foreground border border-dashed px-1 rounded-full">
+                  Upcoming
+                </span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <BellIcon />
-                Notifications
+                Notifications{' '}
+                <span className="ml-auto text-xs text-muted-foreground border border-dashed px-1 rounded-full">
+                  Upcoming
+                </span>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
