@@ -280,13 +280,12 @@ function StatusSelect({
   const handleStatusChange = async (newStatus: string) => {
     setUpdating(true);
     onUpdate(job.id, newStatus);
-    const res = await updateJobStatus(job.userId, job.id, newStatus);
+    toast.promise(updateJobStatus(job.userId, job.id, newStatus), {
+      loading: 'Updating status...',
+      success: 'Status updated successfully!',
+      error: 'Failed to update status.',
+    });
     setUpdating(false);
-    if (res.success) {
-      toast.success(res.message);
-    } else {
-      toast.error(res.message);
-    }
   };
 
   return (
@@ -336,13 +335,12 @@ function JobActions({
   const handleDelete = async () => {
     setDeleting(true);
     onRemove(job.id);
-    const res = await deleteJobAction(job.userId, job.id);
+    toast.promise(deleteJobAction(job.userId, job.id), {
+      loading: 'Deleting job...',
+      success: 'Job deleted successfully!',
+      error: 'Failed to delete job.',
+    });
     setDeleting(false);
-    if (res.success) {
-      toast.success(res.message);
-    } else {
-      toast.error(res.message);
-    }
   };
   return (
     <DropdownMenu>

@@ -28,13 +28,13 @@ export function DatePicker({ userId, jobId, onUpdate }: DatePickerProps) {
     setDate(newDate);
     if (onUpdate) onUpdate(jobId, selectedDate);
     setUpdating(true);
-    const result = await updateInterviewDate(userId, jobId, selectedDate);
+    // const result = await updateInterviewDate(userId, jobId, selectedDate);
+    toast.promise(updateInterviewDate(userId, jobId, selectedDate), {
+      loading: 'Updating interview date...',
+      success: 'Interview date updated successfully!',
+      error: 'Failed to update interview date.',
+    });
     setUpdating(false);
-    if (result.success) {
-      toast.success(result.message);
-    } else {
-      toast.error(result.message);
-    }
   };
 
   return (
