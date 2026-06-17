@@ -14,7 +14,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from '@/components/ui/chart';
-import {useIsMobile} from '@/hooks/use-mobile'
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const chartConfig = {
   jobs: {
@@ -29,7 +29,7 @@ export type ChartData = {
 };
 
 export function CompanyBarChart({ chartData }: { chartData: ChartData[] }) {
-  const isMobile = useIsMobile()
+  const isMobile = useIsMobile();
   return (
     <Card className="@container/card">
       <CardHeader>
@@ -48,7 +48,7 @@ export function CompanyBarChart({ chartData }: { chartData: ChartData[] }) {
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => (isMobile ? value.slice(0, 3) : value)}
+              tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip
               cursor={false}
