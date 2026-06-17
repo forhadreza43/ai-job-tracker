@@ -84,7 +84,7 @@ import {
 import { SerializedJobWithCompany } from '@/lib/data/serialize-job';
 import { ApplicationStatus } from '@/generated/prisma/enums';
 import { columns } from './columns';
-import { useCallback, useId, useMemo, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useState } from 'react';
 
 export type JobWithCompany = SerializedJobWithCompany;
 
@@ -123,6 +123,14 @@ export function DataTable({
   userId: string;
 }) {
   const [data, setData] = useState(() => initialData);
+  // Keep local state in sync whenever the server sends down a fresh
+  // `initialData` (e.g. after router.refresh()). Without this, the lazy
+  // useState initializer only ever runs once, so a refreshed/re-fetched
+  // prop would silently be ignored and the table would keep showing
+  // whatever rows it had at first mount.
+  useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
