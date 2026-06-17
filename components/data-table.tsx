@@ -79,6 +79,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ChevronsRightIcon,
+  RotateCw,
 } from 'lucide-react';
 import { SerializedJobWithCompany } from '@/lib/data/serialize-job';
 import { ApplicationStatus } from '@/generated/prisma/enums';
@@ -240,6 +241,9 @@ export function DataTable({
           <TabsTrigger value="focus-documents">Focus Documents</TabsTrigger>
         </TabsList>
         <div className="flex items-center gap-2">
+          <Button>
+            <RotateCw />
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm">

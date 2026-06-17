@@ -6,10 +6,7 @@ import { JobExtraction } from '@/types/job-extraction';
 import { useState, useEffect, Suspense, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Card,
-  CardContent,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { ModelSelector, DEFAULT_MODEL } from '@/components/model-selector';
 import { authClient } from '@/lib/auth-client';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -32,7 +29,6 @@ function JobTrackerContent() {
   const searchParams = useSearchParams();
   const { data: session } = authClient.useSession();
 
-
   const [result, setResult] = useState<JobExtraction | null>(() => {
     if (typeof window !== 'undefined') {
       const cachedData = localStorage.getItem(PENDING_JOB_KEY);
@@ -47,8 +43,6 @@ function JobTrackerContent() {
     return null;
   });
 
-  
-
   const savePendingJob = async (userId: string, jobData: JobExtraction) => {
     setSaving(true);
     setError(null);
@@ -60,6 +54,8 @@ function JobTrackerContent() {
         localStorage.removeItem(PENDING_JOB_KEY);
         setSaveSuccess(true);
         // setTimeout(() => setSaveSuccess(false), 3000);
+        setResult(null); // Clear the result after saving
+        router.refresh();
         return true;
       } else {
         setError(saveResult.error || 'Failed to save job');
@@ -111,6 +107,7 @@ function JobTrackerContent() {
           PENDING_JOB_KEY,
           JSON.stringify(extractionResult.data)
         );
+        setDescription(''); // Clear the input field after successful extraction
       } else {
         setError(extractionResult.error?.message || 'Extraction failed');
       }

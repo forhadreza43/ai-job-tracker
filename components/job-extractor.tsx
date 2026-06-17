@@ -74,6 +74,7 @@ export function JobTrackerContent() {
           PENDING_JOB_KEY,
           JSON.stringify(extractionResult.data)
         );
+        setDescription(''); // Clear the input field after successful extraction
       } else {
         setError(extractionResult.error?.message || 'Extraction failed');
       }
@@ -95,6 +96,8 @@ export function JobTrackerContent() {
         localStorage.removeItem(PENDING_JOB_KEY);
         setSaveSuccess(true);
         // setTimeout(() => setSaveSuccess(false), 3000);
+        router.push('/dashboard');
+        setResult(null); // Clear the result after saving
         return true;
       } else {
         setError(saveResult.error || 'Failed to save job');
@@ -121,7 +124,6 @@ export function JobTrackerContent() {
     }
 
     await savePendingJob(session.user.id, result);
-    router.push('/dashboard');
   };
 
   const isPendingRedirect = searchParams?.get('pending') === 'true';
@@ -199,7 +201,7 @@ export function JobTrackerContent() {
 
       {/* Results Block */}
       {result && (
-        <Card className='bg-white mb-10 p-4 '>
+        <Card className="bg-white mb-10 p-4 ">
           <ShowExtractedResult result={result} />
           <div className="flex gap-3">
             {saveSuccess && (

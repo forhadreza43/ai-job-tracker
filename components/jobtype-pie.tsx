@@ -120,16 +120,6 @@ export function JobTypePieChart({ initialData }: JobTypePieChartProps) {
           </PieChart>
         </ChartContainer>
       </CardContent>
-
-      {/* <CardFooter className="flex-col gap-1 text-sm border-t pt-3">
-        <div className="flex items-center gap-2 leading-none font-medium">
-          Analytics Pipeline Active{' '}
-          <TrendingUp className="h-4 w-4 text-emerald-500" />
-        </div>
-        <div className="leading-none text-muted-foreground text-xs text-center">
-          Live statistics from user repository metrics
-        </div>
-      </CardFooter> */}
     </Card>
   );
 }
