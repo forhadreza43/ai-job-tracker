@@ -17,6 +17,7 @@ import {
   ListIcon,
   CommandIcon,
   CirclePlusIcon,
+  BellIcon,
 } from 'lucide-react';
 import Link from 'next/link';
 import { DashboardUserMenuSkeleton } from '@/components/skeleton/dashboard-user-skeleton';
@@ -24,11 +25,6 @@ import { SidebarNavigationSkeleton } from '@/components/skeleton/sidebar-navigat
 import { logo } from './navbar/navbar.constants';
 
 const data = {
-  user: {
-    name: 'Guest User',
-    email: 'm@example.com',
-    avatar: '/default-avatar.jpg',
-  },
   navMain: [
     {
       title: 'Dashboard',
@@ -36,7 +32,7 @@ const data = {
       icon: <LayoutDashboardIcon />,
     },
     {
-      title: 'Manage Job',
+      title: 'Manage Jobs',
       url: '/dashboard/manage-jobs',
       icon: <ListIcon />,
       prefetch: false,
@@ -45,6 +41,11 @@ const data = {
       title: 'Create Job',
       url: '/dashboard/create-job',
       icon: <CirclePlusIcon />,
+    },
+    {
+      title: 'Notifications',
+      url: '/dashboard/notifications',
+      icon: <BellIcon />,
     },
   ],
 };

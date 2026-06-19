@@ -57,6 +57,7 @@ export const ModelName = {
   JobNote: 'JobNote',
   Reminder: 'Reminder',
   User: 'User',
+  Notification: 'Notification',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification'
@@ -188,11 +189,29 @@ export const UserScalarFieldEnum = {
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
+  isAiMonitoringActive: 'isAiMonitoringActive',
+  lastCheckedAt: 'lastCheckedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  jobId: 'jobId',
+  title: 'title',
+  message: 'message',
+  type: 'type',
+  isRead: 'isRead',
+  isArchived: 'isArchived',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {

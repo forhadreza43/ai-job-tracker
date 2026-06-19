@@ -93,10 +93,7 @@ export function NavUser() {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <BellIcon />
-                Notifications{' '}
-                <span className="ml-auto text-xs text-muted-foreground border border-dashed px-1 rounded-full">
-                  Upcoming
-                </span>
+                Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

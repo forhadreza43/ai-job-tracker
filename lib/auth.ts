@@ -7,7 +7,6 @@ import { prisma } from '@/lib/prisma';
 export const auth = betterAuth({
   appName: 'APPLI-TRACT',
   baseURL: process.env.BETTER_AUTH_URL!,
-  // basePath: '/api/auth',
   secret: process.env.BETTER_AUTH_SECRET,
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
@@ -16,6 +15,15 @@ export const auth = betterAuth({
     additionalFields: {
       image: {
         type: 'string',
+        required: false,
+      },
+      isAiMonitoringActive: {
+        type: 'boolean',
+        required: false,
+        defaultValue: false,
+      },
+      lastCheckedAt: {
+        type: 'date',
         required: false,
       },
     },
@@ -37,7 +45,11 @@ export const auth = betterAuth({
       prompt: 'select_account',
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      // redirect: false,
+      scope: [
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/gmail.readonly',
+      ],
     },
     github: {
       prompt: 'select_account',

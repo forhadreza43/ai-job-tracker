@@ -97,6 +97,7 @@ model Job {
   aiExtractions       AIExtraction[]
   jobNotes            JobNote[]
   reminders           Reminder[]
+  notifications       Notification[]
 
   @@index([userId])
   @@index([companyId])
@@ -147,18 +148,39 @@ model Reminder {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
+  id                   String         @id
+  name                 String
+  email                String
+  emailVerified        Boolean        @default(false)
+  image                String?
+  isAiMonitoringActive Boolean        @default(false)
+  lastCheckedAt        DateTime?
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  sessions             Session[]
+  accounts             Account[]
+  notifications        Notification[]
 
   @@unique([email])
   @@map("user")
+}
+
+model Notification {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobId       String?
+  job         Job?     @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  title       String
+  message     String   @db.Text
+  type        String   
+  isRead      Boolean  @default(false)
+  isArchived  Boolean  @default(false) 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([jobId])
 }
 
 model Session {

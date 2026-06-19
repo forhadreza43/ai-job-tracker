@@ -1,10 +1,7 @@
 import { AppSidebar } from '@/components/app-sidebar';
-import { SiteHeader } from '@/components/site-header';
+import { SiteHeaderWrapper } from '@/components/site-header-wrapper';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import { Skeleton } from '@/components/ui/skeleton';
-import { DashboardUserMenuSkeleton } from '@/components/skeleton/dashboard-user-skeleton';
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -27,9 +24,7 @@ export default function DashboardLayout({
     >
       <AppSidebar variant="inset" />
       <SidebarInset>
-        <Suspense fallback={<Skeleton className="h-6 w-10 rounded-md" />}>
-          <SiteHeader />
-        </Suspense>
+        <SiteHeaderWrapper />
 
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">

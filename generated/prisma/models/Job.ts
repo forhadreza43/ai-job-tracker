@@ -472,6 +472,7 @@ export type JobWhereInput = {
   aiExtractions?: Prisma.AIExtractionListRelationFilter
   jobNotes?: Prisma.JobNoteListRelationFilter
   reminders?: Prisma.ReminderListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }
 
 export type JobOrderByWithRelationInput = {
@@ -517,6 +518,7 @@ export type JobOrderByWithRelationInput = {
   aiExtractions?: Prisma.AIExtractionOrderByRelationAggregateInput
   jobNotes?: Prisma.JobNoteOrderByRelationAggregateInput
   reminders?: Prisma.ReminderOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
 
 export type JobWhereUniqueInput = Prisma.AtLeast<{
@@ -565,6 +567,7 @@ export type JobWhereUniqueInput = Prisma.AtLeast<{
   aiExtractions?: Prisma.AIExtractionListRelationFilter
   jobNotes?: Prisma.JobNoteListRelationFilter
   reminders?: Prisma.ReminderListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }, "id">
 
 export type JobOrderByWithAggregationInput = {
@@ -699,6 +702,7 @@ export type JobCreateInput = {
   aiExtractions?: Prisma.AIExtractionCreateNestedManyWithoutJobInput
   jobNotes?: Prisma.JobNoteCreateNestedManyWithoutJobInput
   reminders?: Prisma.ReminderCreateNestedManyWithoutJobInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutJobInput
 }
 
 export type JobUncheckedCreateInput = {
@@ -743,6 +747,7 @@ export type JobUncheckedCreateInput = {
   aiExtractions?: Prisma.AIExtractionUncheckedCreateNestedManyWithoutJobInput
   jobNotes?: Prisma.JobNoteUncheckedCreateNestedManyWithoutJobInput
   reminders?: Prisma.ReminderUncheckedCreateNestedManyWithoutJobInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutJobInput
 }
 
 export type JobUpdateInput = {
@@ -787,6 +792,7 @@ export type JobUpdateInput = {
   aiExtractions?: Prisma.AIExtractionUpdateManyWithoutJobNestedInput
   jobNotes?: Prisma.JobNoteUpdateManyWithoutJobNestedInput
   reminders?: Prisma.ReminderUpdateManyWithoutJobNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutJobNestedInput
 }
 
 export type JobUncheckedUpdateInput = {
@@ -831,6 +837,7 @@ export type JobUncheckedUpdateInput = {
   aiExtractions?: Prisma.AIExtractionUncheckedUpdateManyWithoutJobNestedInput
   jobNotes?: Prisma.JobNoteUncheckedUpdateManyWithoutJobNestedInput
   reminders?: Prisma.ReminderUncheckedUpdateManyWithoutJobNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutJobNestedInput
 }
 
 export type JobCreateManyInput = {
@@ -1095,6 +1102,11 @@ export type JobScalarRelationFilter = {
   isNot?: Prisma.JobWhereInput
 }
 
+export type JobNullableScalarRelationFilter = {
+  is?: Prisma.JobWhereInput | null
+  isNot?: Prisma.JobWhereInput | null
+}
+
 export type JobCreateNestedManyWithoutCompanyInput = {
   create?: Prisma.XOR<Prisma.JobCreateWithoutCompanyInput, Prisma.JobUncheckedCreateWithoutCompanyInput> | Prisma.JobCreateWithoutCompanyInput[] | Prisma.JobUncheckedCreateWithoutCompanyInput[]
   connectOrCreate?: Prisma.JobCreateOrConnectWithoutCompanyInput | Prisma.JobCreateOrConnectWithoutCompanyInput[]
@@ -1215,6 +1227,22 @@ export type JobUpdateOneRequiredWithoutRemindersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.JobUpdateToOneWithWhereWithoutRemindersInput, Prisma.JobUpdateWithoutRemindersInput>, Prisma.JobUncheckedUpdateWithoutRemindersInput>
 }
 
+export type JobCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.JobCreateWithoutNotificationsInput, Prisma.JobUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.JobCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.JobWhereUniqueInput
+}
+
+export type JobUpdateOneWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.JobCreateWithoutNotificationsInput, Prisma.JobUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.JobCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.JobUpsertWithoutNotificationsInput
+  disconnect?: Prisma.JobWhereInput | boolean
+  delete?: Prisma.JobWhereInput | boolean
+  connect?: Prisma.JobWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.JobUpdateToOneWithWhereWithoutNotificationsInput, Prisma.JobUpdateWithoutNotificationsInput>, Prisma.JobUncheckedUpdateWithoutNotificationsInput>
+}
+
 export type JobCreateWithoutCompanyInput = {
   id?: string
   userId: string
@@ -1256,6 +1284,7 @@ export type JobCreateWithoutCompanyInput = {
   aiExtractions?: Prisma.AIExtractionCreateNestedManyWithoutJobInput
   jobNotes?: Prisma.JobNoteCreateNestedManyWithoutJobInput
   reminders?: Prisma.ReminderCreateNestedManyWithoutJobInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutJobInput
 }
 
 export type JobUncheckedCreateWithoutCompanyInput = {
@@ -1299,6 +1328,7 @@ export type JobUncheckedCreateWithoutCompanyInput = {
   aiExtractions?: Prisma.AIExtractionUncheckedCreateNestedManyWithoutJobInput
   jobNotes?: Prisma.JobNoteUncheckedCreateNestedManyWithoutJobInput
   reminders?: Prisma.ReminderUncheckedCreateNestedManyWithoutJobInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutJobInput
 }
 
 export type JobCreateOrConnectWithoutCompanyInput = {
@@ -1412,6 +1442,7 @@ export type JobCreateWithoutAiExtractionsInput = {
   company?: Prisma.CompanyCreateNestedOneWithoutJobsInput
   jobNotes?: Prisma.JobNoteCreateNestedManyWithoutJobInput
   reminders?: Prisma.ReminderCreateNestedManyWithoutJobInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutJobInput
 }
 
 export type JobUncheckedCreateWithoutAiExtractionsInput = {
@@ -1455,6 +1486,7 @@ export type JobUncheckedCreateWithoutAiExtractionsInput = {
   extraData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   jobNotes?: Prisma.JobNoteUncheckedCreateNestedManyWithoutJobInput
   reminders?: Prisma.ReminderUncheckedCreateNestedManyWithoutJobInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutJobInput
 }
 
 export type JobCreateOrConnectWithoutAiExtractionsInput = {
@@ -1514,6 +1546,7 @@ export type JobUpdateWithoutAiExtractionsInput = {
   company?: Prisma.CompanyUpdateOneWithoutJobsNestedInput
   jobNotes?: Prisma.JobNoteUpdateManyWithoutJobNestedInput
   reminders?: Prisma.ReminderUpdateManyWithoutJobNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutJobNestedInput
 }
 
 export type JobUncheckedUpdateWithoutAiExtractionsInput = {
@@ -1557,6 +1590,7 @@ export type JobUncheckedUpdateWithoutAiExtractionsInput = {
   extraData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   jobNotes?: Prisma.JobNoteUncheckedUpdateManyWithoutJobNestedInput
   reminders?: Prisma.ReminderUncheckedUpdateManyWithoutJobNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutJobNestedInput
 }
 
 export type JobCreateWithoutJobNotesInput = {
@@ -1600,6 +1634,7 @@ export type JobCreateWithoutJobNotesInput = {
   company?: Prisma.CompanyCreateNestedOneWithoutJobsInput
   aiExtractions?: Prisma.AIExtractionCreateNestedManyWithoutJobInput
   reminders?: Prisma.ReminderCreateNestedManyWithoutJobInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutJobInput
 }
 
 export type JobUncheckedCreateWithoutJobNotesInput = {
@@ -1643,6 +1678,7 @@ export type JobUncheckedCreateWithoutJobNotesInput = {
   extraData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   aiExtractions?: Prisma.AIExtractionUncheckedCreateNestedManyWithoutJobInput
   reminders?: Prisma.ReminderUncheckedCreateNestedManyWithoutJobInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutJobInput
 }
 
 export type JobCreateOrConnectWithoutJobNotesInput = {
@@ -1702,6 +1738,7 @@ export type JobUpdateWithoutJobNotesInput = {
   company?: Prisma.CompanyUpdateOneWithoutJobsNestedInput
   aiExtractions?: Prisma.AIExtractionUpdateManyWithoutJobNestedInput
   reminders?: Prisma.ReminderUpdateManyWithoutJobNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutJobNestedInput
 }
 
 export type JobUncheckedUpdateWithoutJobNotesInput = {
@@ -1745,6 +1782,7 @@ export type JobUncheckedUpdateWithoutJobNotesInput = {
   extraData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   aiExtractions?: Prisma.AIExtractionUncheckedUpdateManyWithoutJobNestedInput
   reminders?: Prisma.ReminderUncheckedUpdateManyWithoutJobNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutJobNestedInput
 }
 
 export type JobCreateWithoutRemindersInput = {
@@ -1788,6 +1826,7 @@ export type JobCreateWithoutRemindersInput = {
   company?: Prisma.CompanyCreateNestedOneWithoutJobsInput
   aiExtractions?: Prisma.AIExtractionCreateNestedManyWithoutJobInput
   jobNotes?: Prisma.JobNoteCreateNestedManyWithoutJobInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutJobInput
 }
 
 export type JobUncheckedCreateWithoutRemindersInput = {
@@ -1831,6 +1870,7 @@ export type JobUncheckedCreateWithoutRemindersInput = {
   extraData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   aiExtractions?: Prisma.AIExtractionUncheckedCreateNestedManyWithoutJobInput
   jobNotes?: Prisma.JobNoteUncheckedCreateNestedManyWithoutJobInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutJobInput
 }
 
 export type JobCreateOrConnectWithoutRemindersInput = {
@@ -1890,6 +1930,7 @@ export type JobUpdateWithoutRemindersInput = {
   company?: Prisma.CompanyUpdateOneWithoutJobsNestedInput
   aiExtractions?: Prisma.AIExtractionUpdateManyWithoutJobNestedInput
   jobNotes?: Prisma.JobNoteUpdateManyWithoutJobNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutJobNestedInput
 }
 
 export type JobUncheckedUpdateWithoutRemindersInput = {
@@ -1933,6 +1974,199 @@ export type JobUncheckedUpdateWithoutRemindersInput = {
   extraData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   aiExtractions?: Prisma.AIExtractionUncheckedUpdateManyWithoutJobNestedInput
   jobNotes?: Prisma.JobNoteUncheckedUpdateManyWithoutJobNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutJobNestedInput
+}
+
+export type JobCreateWithoutNotificationsInput = {
+  id?: string
+  userId: string
+  title: string
+  role?: string | null
+  subjectLine?: string | null
+  source?: string | null
+  sourceUrl?: string | null
+  location?: string | null
+  workMode?: $Enums.WorkMode | null
+  jobType?: $Enums.JobType | null
+  experienceLevel?: string | null
+  experienceRequired?: string | null
+  vacancy?: number | null
+  officeTime?: string | null
+  circularDate?: Date | string | null
+  applicationDeadline?: Date | string | null
+  salaryMin?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  salaryMax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  salaryCurrency?: string | null
+  salaryNegotiable?: boolean
+  skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  responsibilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  qualifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  niceToHave?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  benefits?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  applicationProcess?: string | null
+  description: string
+  rawText: string
+  aiConfidence?: number | null
+  status?: $Enums.ApplicationStatus
+  appliedAt?: Date | string | null
+  interviewDate?: Date | string | null
+  notes?: string | null
+  bookmarked?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  extraData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  company?: Prisma.CompanyCreateNestedOneWithoutJobsInput
+  aiExtractions?: Prisma.AIExtractionCreateNestedManyWithoutJobInput
+  jobNotes?: Prisma.JobNoteCreateNestedManyWithoutJobInput
+  reminders?: Prisma.ReminderCreateNestedManyWithoutJobInput
+}
+
+export type JobUncheckedCreateWithoutNotificationsInput = {
+  id?: string
+  userId: string
+  companyId?: string | null
+  title: string
+  role?: string | null
+  subjectLine?: string | null
+  source?: string | null
+  sourceUrl?: string | null
+  location?: string | null
+  workMode?: $Enums.WorkMode | null
+  jobType?: $Enums.JobType | null
+  experienceLevel?: string | null
+  experienceRequired?: string | null
+  vacancy?: number | null
+  officeTime?: string | null
+  circularDate?: Date | string | null
+  applicationDeadline?: Date | string | null
+  salaryMin?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  salaryMax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  salaryCurrency?: string | null
+  salaryNegotiable?: boolean
+  skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  responsibilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  qualifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  niceToHave?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  benefits?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  applicationProcess?: string | null
+  description: string
+  rawText: string
+  aiConfidence?: number | null
+  status?: $Enums.ApplicationStatus
+  appliedAt?: Date | string | null
+  interviewDate?: Date | string | null
+  notes?: string | null
+  bookmarked?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  extraData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  aiExtractions?: Prisma.AIExtractionUncheckedCreateNestedManyWithoutJobInput
+  jobNotes?: Prisma.JobNoteUncheckedCreateNestedManyWithoutJobInput
+  reminders?: Prisma.ReminderUncheckedCreateNestedManyWithoutJobInput
+}
+
+export type JobCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.JobWhereUniqueInput
+  create: Prisma.XOR<Prisma.JobCreateWithoutNotificationsInput, Prisma.JobUncheckedCreateWithoutNotificationsInput>
+}
+
+export type JobUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.JobUpdateWithoutNotificationsInput, Prisma.JobUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.JobCreateWithoutNotificationsInput, Prisma.JobUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.JobWhereInput
+}
+
+export type JobUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.JobWhereInput
+  data: Prisma.XOR<Prisma.JobUpdateWithoutNotificationsInput, Prisma.JobUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type JobUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subjectLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workMode?: Prisma.NullableEnumWorkModeFieldUpdateOperationsInput | $Enums.WorkMode | null
+  jobType?: Prisma.NullableEnumJobTypeFieldUpdateOperationsInput | $Enums.JobType | null
+  experienceLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experienceRequired?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vacancy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  officeTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  circularDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  applicationDeadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  salaryMin?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  salaryMax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  salaryCurrency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryNegotiable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  responsibilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  qualifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  niceToHave?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  benefits?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  applicationProcess?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  rawText?: Prisma.StringFieldUpdateOperationsInput | string
+  aiConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  appliedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  interviewDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookmarked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  extraData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  company?: Prisma.CompanyUpdateOneWithoutJobsNestedInput
+  aiExtractions?: Prisma.AIExtractionUpdateManyWithoutJobNestedInput
+  jobNotes?: Prisma.JobNoteUpdateManyWithoutJobNestedInput
+  reminders?: Prisma.ReminderUpdateManyWithoutJobNestedInput
+}
+
+export type JobUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subjectLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workMode?: Prisma.NullableEnumWorkModeFieldUpdateOperationsInput | $Enums.WorkMode | null
+  jobType?: Prisma.NullableEnumJobTypeFieldUpdateOperationsInput | $Enums.JobType | null
+  experienceLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experienceRequired?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vacancy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  officeTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  circularDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  applicationDeadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  salaryMin?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  salaryMax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  salaryCurrency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryNegotiable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  responsibilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  qualifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  niceToHave?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  benefits?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  applicationProcess?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  rawText?: Prisma.StringFieldUpdateOperationsInput | string
+  aiConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  appliedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  interviewDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookmarked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  extraData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  aiExtractions?: Prisma.AIExtractionUncheckedUpdateManyWithoutJobNestedInput
+  jobNotes?: Prisma.JobNoteUncheckedUpdateManyWithoutJobNestedInput
+  reminders?: Prisma.ReminderUncheckedUpdateManyWithoutJobNestedInput
 }
 
 export type JobCreateManyCompanyInput = {
@@ -2016,6 +2250,7 @@ export type JobUpdateWithoutCompanyInput = {
   aiExtractions?: Prisma.AIExtractionUpdateManyWithoutJobNestedInput
   jobNotes?: Prisma.JobNoteUpdateManyWithoutJobNestedInput
   reminders?: Prisma.ReminderUpdateManyWithoutJobNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutJobNestedInput
 }
 
 export type JobUncheckedUpdateWithoutCompanyInput = {
@@ -2059,6 +2294,7 @@ export type JobUncheckedUpdateWithoutCompanyInput = {
   aiExtractions?: Prisma.AIExtractionUncheckedUpdateManyWithoutJobNestedInput
   jobNotes?: Prisma.JobNoteUncheckedUpdateManyWithoutJobNestedInput
   reminders?: Prisma.ReminderUncheckedUpdateManyWithoutJobNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutJobNestedInput
 }
 
 export type JobUncheckedUpdateManyWithoutCompanyInput = {
@@ -2110,12 +2346,14 @@ export type JobCountOutputType = {
   aiExtractions: number
   jobNotes: number
   reminders: number
+  notifications: number
 }
 
 export type JobCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   aiExtractions?: boolean | JobCountOutputTypeCountAiExtractionsArgs
   jobNotes?: boolean | JobCountOutputTypeCountJobNotesArgs
   reminders?: boolean | JobCountOutputTypeCountRemindersArgs
+  notifications?: boolean | JobCountOutputTypeCountNotificationsArgs
 }
 
 /**
@@ -2147,6 +2385,13 @@ export type JobCountOutputTypeCountJobNotesArgs<ExtArgs extends runtime.Types.Ex
  */
 export type JobCountOutputTypeCountRemindersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ReminderWhereInput
+}
+
+/**
+ * JobCountOutputType without action
+ */
+export type JobCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
 }
 
 
@@ -2193,6 +2438,7 @@ export type JobSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   aiExtractions?: boolean | Prisma.Job$aiExtractionsArgs<ExtArgs>
   jobNotes?: boolean | Prisma.Job$jobNotesArgs<ExtArgs>
   reminders?: boolean | Prisma.Job$remindersArgs<ExtArgs>
+  notifications?: boolean | Prisma.Job$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.JobCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["job"]>
 
@@ -2327,6 +2573,7 @@ export type JobInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   aiExtractions?: boolean | Prisma.Job$aiExtractionsArgs<ExtArgs>
   jobNotes?: boolean | Prisma.Job$jobNotesArgs<ExtArgs>
   reminders?: boolean | Prisma.Job$remindersArgs<ExtArgs>
+  notifications?: boolean | Prisma.Job$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.JobCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type JobIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2343,6 +2590,7 @@ export type $JobPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     aiExtractions: Prisma.$AIExtractionPayload<ExtArgs>[]
     jobNotes: Prisma.$JobNotePayload<ExtArgs>[]
     reminders: Prisma.$ReminderPayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2781,6 +3029,7 @@ export interface Prisma__JobClient<T, Null = never, ExtArgs extends runtime.Type
   aiExtractions<T extends Prisma.Job$aiExtractionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Job$aiExtractionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AIExtractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   jobNotes<T extends Prisma.Job$jobNotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Job$jobNotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reminders<T extends Prisma.Job$remindersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Job$remindersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.Job$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Job$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3337,6 +3586,30 @@ export type Job$remindersArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.ReminderScalarFieldEnum | Prisma.ReminderScalarFieldEnum[]
+}
+
+/**
+ * Job.notifications
+ */
+export type Job$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
 }
 
 /**
