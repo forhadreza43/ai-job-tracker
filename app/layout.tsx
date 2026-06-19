@@ -5,6 +5,9 @@ import { cn } from '@/lib/utils';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AuthProvider } from '@/hooks/auth-provider';
 import { Toaster } from '@/components/ui/sonner';
+import { Suspense } from 'react';
+import { Footer } from '@/components/footer';
+import { Navbar } from '@/components/navbar/navbar';
 
 const ralewayHeading = Raleway({
   subsets: ['latin'],
@@ -51,7 +54,15 @@ export default function RootLayout({
         <AuthProvider>
           <TooltipProvider>
             <Toaster position="top-center" />
-            <main>{children}</main>
+            <main className="flex-1 flex flex-col">
+              <Suspense fallback={<h1>Loading...</h1>}>
+                <Navbar />
+              </Suspense>
+              {children}
+              <Suspense fallback={<h1>Loading...</h1>}>
+                <Footer />
+              </Suspense>
+            </main>
           </TooltipProvider>
         </AuthProvider>
       </body>

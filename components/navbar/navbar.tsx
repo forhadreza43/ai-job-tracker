@@ -19,6 +19,7 @@ import Link from 'next/link';
 import MobileNavAction from './mobile-nav-action';
 import { logo } from '@/components/navbar/navbar.constants';
 import Logo from '@/components/navbar/logo';
+import { usePathname } from 'next/navigation';
 
 interface NavbarProps {
   className?: string;
@@ -41,6 +42,10 @@ const Navbar = ({
   },
   className,
 }: NavbarProps) => {
+  const pathname = usePathname();
+
+  if (pathname?.startsWith('/dashboard')) return null;
+
   const { data: session } = authClient.useSession();
   // console.log(session);
   return (
@@ -55,7 +60,7 @@ const Navbar = ({
         <nav className="hidden items-center justify-between lg:flex">
           <div className="flex items-center gap-6">
             {/* Logo */}
-            <a href={logo.url} className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2">
               <Logo />
               <div className="flex flex-col leading-none">
                 <span className="text-lg font-semibold tracking-tighter">
@@ -65,7 +70,7 @@ const Navbar = ({
                   {logo.subtitle}
                 </span>
               </div>
-            </a>
+            </Link>
           </div>
           <div className="flex items-center gap-4">
             <NavLink />

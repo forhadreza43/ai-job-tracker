@@ -125,14 +125,11 @@ export function JobTrackerContent() {
     }
 
     // await savePendingJob(session.user.id, result);
-    toast.promise(
-          savePendingJob(session.user.id, result),
-          {
-            loading: 'Saving job...',
-            success: 'Job saved successfully!',
-            error: (err) => `Error saving job: ${err.message}`,
-          }
-        );
+    toast.promise(savePendingJob(session.user.id, result), {
+      loading: 'Saving job...',
+      success: 'Job saved successfully!',
+      error: (err) => `Error saving job: ${err.message}`,
+    });
   };
 
   const isPendingRedirect = searchParams?.get('pending') === 'true';

@@ -1,0 +1,155 @@
+{
+  "meta": {
+    "appName": "APPLI-TRACT",
+    "effectiveDate": "June 19, 2025",
+    "lastUpdated": "June 19, 2025",
+    "appUrl": "https://appli-tract.vercel.app",
+    "developer": "Md. Forhad Reza",
+    "email": "forhad.bimt@gmail.com",
+    "portfolio": "https://forhadreza.vercel.app"
+  },
+  "sections": [
+    {
+      "id": "about",
+      "icon": "info-circle",
+      "title": "About this policy",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "APPLI-TRACT is a personal project developed by Md. Forhad Reza to help job seekers track their job applications in one place. This Privacy Policy explains what data we collect, why we collect it, and how we protect it."
+        },
+        {
+          "type": "paragraph",
+          "text": "By using APPLI-TRACT at appli-tract.vercel.app, you agree to the practices described below."
+        }
+      ]
+    },
+    {
+      "id": "data-collected",
+      "icon": "database",
+      "title": "What data we collect",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Account information — your name, email address, and profile picture from Google or GitHub OAuth",
+            "Job application data — company names, job titles, application dates, deadlines, statuses, and any other details you enter manually",
+            "Gmail message metadata — subject lines, sender addresses, and message snippets of unread emails (only when you enable AI Monitoring)",
+            "Session data — authentication tokens and session identifiers to keep you logged in"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gmail",
+      "icon": "mail-search",
+      "title": "Gmail access (AI Monitoring)",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "When you enable the AI Monitoring feature, APPLI-TRACT requests read-only access to your Gmail inbox via Google's official API using the gmail.readonly scope. This access is used solely to:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Scan your inbox every 30 minutes for emails that may be interview invitations or assessment requests",
+            "Automatically update the status of matching job applications in your tracker",
+            "Generate in-app notifications so you never miss a follow-up"
+          ]
+        },
+        {
+          "type": "highlight",
+          "text": "We never read the full body of your emails, store email content in our database, share your Gmail data with any third party, or use your inbox for any purpose other than detecting job-related communications."
+        },
+        {
+          "type": "paragraph",
+          "text": "You can disable AI Monitoring at any time from the dashboard header. Disabling it immediately stops all Gmail access. You can also revoke access directly from your Google Account permissions page."
+        }
+      ]
+    },
+    {
+      "id": "ai",
+      "icon": "cpu",
+      "title": "AI processing",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "APPLI-TRACT uses Google Gemini to analyse job descriptions you paste and to classify emails detected during AI Monitoring. Data sent to Gemini is processed according to Google's privacy policy. We do not store raw AI prompts or responses in our database beyond what is necessary to display results to you."
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "icon": "users",
+      "title": "How we use your data",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "To provide and improve the core job tracking features of the app",
+            "To authenticate you securely via Better Auth with Google or GitHub OAuth",
+            "To send in-app notifications about interview calls and assessments (AI Monitoring only)",
+            "To maintain your session across visits"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "We do not sell your data, run advertisements, or share your information with third parties except as required by law or as necessary to operate the app (e.g., database hosting on Vercel and Neon)."
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "icon": "lock",
+      "title": "Data storage & security",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Your data is stored in a PostgreSQL database hosted on Neon and deployed via Vercel. We use industry-standard encryption in transit (HTTPS/TLS) and at rest. Authentication tokens are stored securely and expire automatically."
+        },
+        {
+          "type": "paragraph",
+          "text": "As a personal project, APPLI-TRACT does not have a dedicated security team. If you discover a vulnerability, please contact us immediately at forhad.bimt@gmail.com."
+        }
+      ]
+    },
+    {
+      "id": "rights",
+      "icon": "user-check",
+      "title": "Your rights",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Access — you can view all your job data directly in the app at any time",
+            "Deletion — contact us to permanently delete your account and all associated data",
+            "Gmail revocation — revoke inbox access anytime from Google Account settings without deleting your APPLI-TRACT account",
+            "Data portability — contact us to request an export of your job application data"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "changes",
+      "icon": "refresh",
+      "title": "Changes to this policy",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "We may update this Privacy Policy from time to time. When we do, the Last updated date at the top of this page will change. Continued use of the app after changes constitutes acceptance of the revised policy."
+        }
+      ]
+    },
+    {
+      "id": "contact",
+      "icon": "mail",
+      "title": "Contact",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Questions, concerns, or data deletion requests — reach out directly."
+        }
+      ]
+    }
+  ]
+}

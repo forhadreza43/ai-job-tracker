@@ -1,5 +1,6 @@
 import { AppSidebar } from '@/components/app-sidebar';
-import { SiteHeaderWrapper } from '@/components/site-header-wrapper';
+import { SiteHeader } from '@/components/site-header';
+// import { SiteHeaderWrapper } from '@/components/site-header-wrapper';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import type { Metadata } from 'next';
 
@@ -24,7 +25,7 @@ export default function DashboardLayout({
     >
       <AppSidebar variant="inset" />
       <SidebarInset>
-        <SiteHeaderWrapper />
+        <SiteHeader />
 
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
