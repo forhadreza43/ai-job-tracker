@@ -42,6 +42,13 @@ export function Footer() {
               Privacy Policy
             </Link>
             <Separator orientation="vertical" className="h-3" />
+            <Link
+              href="/terms"
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Terms of Service
+            </Link>
+            <Separator orientation="vertical" className="h-3" />
 
             <a
               href="mailto:forhad.bimt@gmail.com"
