@@ -71,7 +71,6 @@ export const metadata: Metadata = {
     ],
   },
 
-  
   twitter: {
     card: 'summary_large_image',
     title: 'APPLI-TRACT | Smart Job Application Tracker',
@@ -80,7 +79,6 @@ export const metadata: Metadata = {
     images: [`${APP_URL}/og-image.png`],
   },
 
-  
   robots: {
     index: true,
     follow: true,
@@ -92,9 +90,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-
+  // <meta name="google-site-verification" content="S-64WbJYBCx7CWlAd0rG5t1YYE24ow4AL1W-gOdZoQA" />
   verification: {
-    google: 'google0130673b6a6a4631',
+    google: 'S-64WbJYBCx7CWlAd0rG5t1YYE24ow4AL1W-gOdZoQA',
   },
 };
 
