@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 import { checkEmailsForInterviews } from '@/actions/cron/cron.action';
 
-// cron-job.org বা EasyCron থেকে GET request আসবে
-// Authorization header এ Bearer token দিয়ে secure করা হয়েছে
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization');
 
