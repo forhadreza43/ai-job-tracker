@@ -71,7 +71,6 @@ function AiToggleClient() {
 
   return (
     <div className="flex items-center gap-1.5">
-      {/* আইকনটি বাইরে থাকবে */}
       <BotIcon
         className={cn(
           'size-6 transition-colors',
@@ -79,7 +78,6 @@ function AiToggleClient() {
         )}
       />
 
-      {/* শুধু বাটনটি টুলটিপ ট্রিগার করবে */}
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
