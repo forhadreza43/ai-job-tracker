@@ -304,7 +304,7 @@ export default function TermsPage() {
   return (
     <>
       <div className="flex-1 py-10 mt-22 mb-10 container max-w-360 mx-auto">
-        <div className="mx-auto container max-w-3xl px-4">
+        <div className="px-4">
           {/* Header */}
           <div className="mb-10 pb-8 border-b border-border">
             <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-muted px-3 py-1 rounded-full mb-4">
