@@ -164,7 +164,7 @@ export function JobTrackerContent() {
   }, [isPendingRedirect, targetUserId, router]);
 
   return (
-    <div className="space-y-6 container max-w-360 mx-auto px-4 mt-22">
+    <div className="space-y-6 container max-w-360 mx-auto px-4 mt-4">
       {/* Input Card */}
       <Card>
         <CardHeader>
