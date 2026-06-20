@@ -8,7 +8,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { Suspense } from 'react';
 import { Footer } from '@/components/footer';
 import { Navbar } from '@/components/navbar/navbar';
-
+import { ThemeProvider } from '@/components/theme-provider';
 const ralewayHeading = Raleway({
   subsets: ['latin'],
   variable: '--font-heading',
@@ -25,7 +25,6 @@ const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
 });
-
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
 
@@ -102,6 +101,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={cn(
         'h-full',
         'antialiased',
@@ -112,22 +112,29 @@ export default function RootLayout({
         ralewayHeading.variable
       )}
     >
-      <body className="min-h-full flex flex-col bg-zinc-100">
-        {/* <Navbar /> */}
-        <AuthProvider>
-          <TooltipProvider>
-            <Toaster position="top-center" />
-            <main className="flex-1 flex flex-col">
-              <Suspense fallback={<h1>Loading...</h1>}>
-                <Navbar />
-              </Suspense>
-              {children}
-              <Suspense fallback={<h1>Loading...</h1>}>
-                <Footer />
-              </Suspense>
-            </main>
-          </TooltipProvider>
-        </AuthProvider>
+      <body className="min-h-full flex flex-col bg-zinc-100 dark:bg-background">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {/* <Navbar /> */}
+          <AuthProvider>
+            <TooltipProvider>
+              <Toaster position="top-center" />
+              <main className="flex-1 flex flex-col">
+                <Suspense fallback={<h1>Loading...</h1>}>
+                  <Navbar />
+                </Suspense>
+                {children}
+                <Suspense fallback={<h1>Loading...</h1>}>
+                  <Footer />
+                </Suspense>
+              </main>
+            </TooltipProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

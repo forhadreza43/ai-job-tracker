@@ -20,6 +20,7 @@ import MobileNavAction from './mobile-nav-action';
 import { logo } from '@/components/navbar/navbar.constants';
 import Logo from '@/components/navbar/logo';
 import { usePathname } from 'next/navigation';
+import { ModeToggle } from '../mode-toggle';
 
 interface NavbarProps {
   className?: string;
@@ -50,7 +51,7 @@ const Navbar = ({
   return (
     <section
       className={cn(
-        'py-4 shadow fixed top-0 w-full z-50 bg-white/70 backdrop-blur-sm',
+        'py-4 shadow fixed top-0 w-full z-50 bg-sidebar dark:border-b',
         className
       )}
     >
@@ -74,16 +75,19 @@ const Navbar = ({
           <div className="flex items-center gap-4">
             <NavLink />
           </div>
-          {session ? (
-            // <SignOut />
-            <DesktopNavProfile />
-          ) : (
-            <div className="flex gap-2">
-              <Button asChild size="sm">
-                <a href={auth.login.url}>{auth.login.title}</a>
-              </Button>
-            </div>
-          )}
+          <div className='flex items-center gap-5'>
+            <ModeToggle/>
+            {session ? (
+              // <SignOut />
+              <DesktopNavProfile />
+            ) : (
+              <div className="flex gap-2">
+                <Button asChild size="sm">
+                  <a href={auth.login.url}>{auth.login.title}</a>
+                </Button>
+              </div>
+            )}
+          </div>
         </nav>
 
         {/* Mobile Menu */}
