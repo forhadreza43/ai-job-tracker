@@ -6,8 +6,8 @@ import { Suspense } from 'react';
 export default function HomePage() {
   return (
     <>
-      <div className="px-4 py-12 text-center mt-22 container max-w-360 mx-auto">
-        <Card>
+      <div className="px-4 text-center mt-22 container max-w-360 mx-auto">
+        <Card className="py-10">
           <CardHeader>
             <CardTitle>
               <h1 className="text-2xl font-medium text-foreground mb-3">
