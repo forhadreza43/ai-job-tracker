@@ -12,8 +12,8 @@ export function Footer() {
   if (pathname?.startsWith('/dashboard')) return null;
   return (
     <footer className="border-t border-border bg-background z-50 mt-10">
-      <div className="max-w-7xl mx-auto px-6 py-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="max-w-360 container mx-auto px-4 py-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Left — brand */}
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-foreground">
