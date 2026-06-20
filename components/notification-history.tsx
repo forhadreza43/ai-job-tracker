@@ -22,7 +22,7 @@ type Notification = {
   } | null;
 };
 
-export function NotificationHistoryClient() {
+export function NotificationHistory() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
 

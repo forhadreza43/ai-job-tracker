@@ -167,8 +167,6 @@ async function callGeminiAPI(
     if (!response.text) {
       throw new Error('No content received in Gemini response context');
     }
-    // console.log('RAW GEMINI RESPONSE');
-    // console.log(response.text);
 
     return response.text;
   } catch (error) {
@@ -355,8 +353,6 @@ export async function parseGeminiResponse(
 
     // Parse JSON
     const parsed = JSON.parse(jsonText);
-    // console.log('PARSED GEMINI RESPONSE');
-    // console.log(parsed);
 
     // Extract confidence
     const confidence = Math.max(0, Math.min(100, parsed.confidence || 0));

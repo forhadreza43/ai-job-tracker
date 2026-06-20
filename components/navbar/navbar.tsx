@@ -47,7 +47,6 @@ const Navbar = ({
   if (pathname?.startsWith('/dashboard')) return null;
 
   const { data: session } = authClient.useSession();
-  // console.log(session);
   return (
     <section
       className={cn(

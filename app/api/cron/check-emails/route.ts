@@ -12,7 +12,6 @@ export async function GET(request: Request) {
     const result = await checkEmailsForInterviews();
 
     if (!result.success) {
-      console.error('Cron error detail:', result.error);
       return NextResponse.json(
         { success: false, error: 'Email check failed' },
         { status: 500 }
