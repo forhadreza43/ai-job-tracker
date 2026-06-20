@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 // import { ChromeIcon, GithubIcon } from 'lucide-react';
 
 function LinkedAccounts() {
-  const { data: session } = authClient.useSession();
+  // const { data: session } = authClient.useSession();
   const [accounts, setAccounts] = useState<{ providerId: string }[]>([]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function LinkedAccounts() {
     <div className="flex flex-col gap-3">
       <p className="text-sm font-medium text-foreground">Linked Accounts</p>
       <p className="text-xs text-muted-foreground">
-        AI Monitoring এর জন্য Google account link করুন।
+        Link Google to your account from Settings
       </p>
 
       {/* Google */}

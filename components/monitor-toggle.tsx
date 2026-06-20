@@ -26,26 +26,26 @@ export function AiToggleClient() {
   const [status, setStatus] = useState<MonitoringStatus | null>(null);
   const [isPending, startTransition] = useTransition();
 
-useEffect(() => {
-  getAiMonitoringStatus().then((result) => {
-    if (result.success && result.data) {
-      setStatus({
-        isActive: result.data.isAiMonitoringActive ?? false,
-        hasGoogleAccount:
-          'hasGoogleAccount' in result.data
-            ? result.data.hasGoogleAccount
-            : false,
-        lastChecked: result.data.lastCheckedAt ?? null,
-      });
-    } else {
-      setStatus({
-        isActive: false,
-        hasGoogleAccount: false,
-        lastChecked: null,
-      });
-    }
-  });
-}, []);
+  useEffect(() => {
+    getAiMonitoringStatus().then((result) => {
+      if (result.success && result.data) {
+        setStatus({
+          isActive: result.data.isAiMonitoringActive ?? false,
+          hasGoogleAccount:
+            'hasGoogleAccount' in result.data
+              ? result.data.hasGoogleAccount
+              : false,
+          lastChecked: result.data.lastCheckedAt ?? null,
+        });
+      } else {
+        setStatus({
+          isActive: false,
+          hasGoogleAccount: false,
+          lastChecked: null,
+        });
+      }
+    });
+  }, []);
 
   const handleToggle = () => {
     if (!status) return;
@@ -110,7 +110,7 @@ useEffect(() => {
               role="switch"
               aria-checked={isActive}
               onClick={handleToggle}
-              disabled={isPending || !hasGoogleAccount}
+              disabled={isPending} //|| !hasGoogleAccount
               className={cn(
                 'relative inline-flex h-5 w-10 shrink-0 items-center rounded-full border-2 border-transparent',
                 'transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2',
