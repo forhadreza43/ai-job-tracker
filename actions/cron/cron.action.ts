@@ -24,9 +24,20 @@ export async function checkEmailsForInterviews() {
       include: { accounts: { where: { providerId: 'google' } } },
     });
 
+    console.log(`Active users found: ${activeUsers.length}`);
+
     for (const user of activeUsers) {
+      console.log(`Processing user: ${user.email}`);
+
       const account = user.accounts[0];
-      if (!account?.accessToken || !account?.refreshToken) continue;
+      console.log(
+        `Has account: ${!!account}, Has accessToken: ${!!account?.accessToken}, Has refreshToken: ${!!account?.refreshToken}`
+      );
+
+      if (!account?.accessToken || !account?.refreshToken) {
+        console.log(`Skipping user ${user.email} — missing tokens`);
+        continue;
+      }
 
       // Setup Gmail API
       const oauth2Client = new google.auth.OAuth2(
