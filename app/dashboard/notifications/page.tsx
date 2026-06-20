@@ -2,6 +2,13 @@ import { Suspense } from 'react';
 import { NotificationHistory } from '@/components/notification-history';
 import { HistoryIcon } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Notification History',
+  description:
+    'See a complete history of interview and assessment notifications detected in your inbox.',
+};
 
 export default function NotificationsPage() {
   return (

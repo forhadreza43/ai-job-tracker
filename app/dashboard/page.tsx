@@ -5,6 +5,14 @@ import { BarChartSkeleton } from '@/components/skeleton/barchart-skeleton';
 import { Barchart } from '@/components/barchart';
 import { PieChartSection } from '@/components/piechart-section';
 import WorkmodeJobtypeSkeleton from '@/components/skeleton/workmode-jobtype-skeleton';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Dashboard Overview',
+  description:
+    'View your job application status, interview alerts, and AI-extracted insights in one place.',
+};
+
 export default function Page() {
   return (
     <>

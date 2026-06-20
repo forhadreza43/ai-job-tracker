@@ -26,7 +26,6 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-// google-site-verification: google0130673b6a6a4631.html
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
 
@@ -52,7 +51,6 @@ export const metadata: Metadata = {
   creator: 'Md. Forhad Reza',
   publisher: 'APPLI-TRACT',
 
-  // ৪. ওপেন গ্রাফ (LinkedIn, Facebook, Discord এ শেয়ার করার জন্য)
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -90,7 +88,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  // <meta name="google-site-verification" content="S-64WbJYBCx7CWlAd0rG5t1YYE24ow4AL1W-gOdZoQA" />
+
   verification: {
     google: 'S-64WbJYBCx7CWlAd0rG5t1YYE24ow4AL1W-gOdZoQA',
   },
