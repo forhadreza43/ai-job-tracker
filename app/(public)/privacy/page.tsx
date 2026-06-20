@@ -61,7 +61,7 @@ export default function PrivacyPage() {
   const { meta, sections } = privacyData;
 
   return (
-    <div className="flex-1 mt-22 mb-10">
+    <div className="flex-1 mt-22">
       <div className="mx-auto container max-w-360 px-4 ">
         {/* Header */}
         <div className="mb-10 pb-8 border-b border-border">

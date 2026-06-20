@@ -164,7 +164,7 @@ export function JobTrackerContent() {
   }, [isPendingRedirect, targetUserId, router]);
 
   return (
-    <div className="space-y-6 container max-w-360 mx-auto px-4 mt-4">
+    <div className="space-y-6 container max-w-360 mx-auto px-4 mt-6">
       {/* Input Card */}
       <Card>
         <CardHeader>
@@ -207,7 +207,7 @@ export function JobTrackerContent() {
 
       {/* Results Block */}
       {result && (
-        <Card className="bg-white mb-10 p-4 ">
+        <Card className="bg-white p-4 ">
           <ShowExtractedResult result={result} />
           <div className="flex gap-3">
             {saveSuccess && (

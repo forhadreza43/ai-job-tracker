@@ -47,7 +47,7 @@ export function NotificationHistory() {
 
   if (notifications.length === 0) {
     return (
-      <Card className="flex flex-col items-center gap-3 py-16 text-muted-foreground">
+      <Card className="flex flex-col items-center gap-3 py-16 text-muted-foreground px-4 text-center">
         <InboxIcon className="size-10 opacity-30" />
         <p className="text-sm">No notification history yet.</p>
         <p className="text-xs">

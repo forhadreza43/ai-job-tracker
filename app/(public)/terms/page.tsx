@@ -303,7 +303,7 @@ function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) {
 export default function TermsPage() {
   return (
     <>
-      <div className="flex-1 py-10 mt-22 mb-10 container max-w-360 mx-auto">
+      <div className="flex-1 mt-22 container max-w-360 mx-auto">
         <div className="px-4">
           {/* Header */}
           <div className="mb-10 pb-8 border-b border-border">
