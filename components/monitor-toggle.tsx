@@ -54,6 +54,10 @@ useEffect(() => {
     if (!status.hasGoogleAccount) {
       toast.error('AI Monitoring only work with google login', {
         description: 'Link Google to your account from Settings',
+        action: {
+          label: 'Settings',
+          onClick: () => (window.location.href = '/dashboard/settings'),
+        },
       });
       return;
     }
