@@ -9,6 +9,8 @@ import { AIMonitorToggleSkeleton } from './skeleton/ai-monitor-toggle-skeleton';
 import { AiToggleClient } from './monitor-toggle';
 import { PageTitle } from './page-title';
 import { ModeToggle } from './mode-toggle';
+import Link from 'next/link';
+import { Settings } from 'lucide-react';
 
 export function SiteHeader() {
   return (
@@ -25,11 +27,18 @@ export function SiteHeader() {
           <PageTitle />
         </Suspense>
         <div className="flex items-center gap-3">
-          <Suspense fallback={<AIMonitorToggleSkeleton/>}>
+          <Suspense fallback={<AIMonitorToggleSkeleton />}>
             <AiToggleClient />
           </Suspense>
           <NotificationBell />
           <ModeToggle />
+          <Link
+            href={'/dashboard/settings'}
+            className="border p-1.5 rounded-lg bg-background text-secondary-foreground"
+          >
+            {' '}
+            <Settings size={18} />
+          </Link>
         </div>
       </div>
     </header>

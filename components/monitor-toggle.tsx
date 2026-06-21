@@ -50,7 +50,6 @@ export function AiToggleClient() {
   const handleToggle = () => {
     if (!status) return;
 
-    // Google account না থাকলে toggle করতে দেবে না
     if (!status.hasGoogleAccount) {
       toast.error('AI Monitoring only work with google login', {
         description: 'Link Google to your account from Settings',

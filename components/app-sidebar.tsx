@@ -18,6 +18,7 @@ import {
   CommandIcon,
   CirclePlusIcon,
   BellIcon,
+  Settings,
 } from 'lucide-react';
 import Link from 'next/link';
 import { DashboardUserMenuSkeleton } from '@/components/skeleton/dashboard-user-skeleton';
@@ -46,6 +47,11 @@ const data = {
       title: 'Notifications',
       url: '/dashboard/notifications',
       icon: <BellIcon />,
+    },
+    {
+      title: 'Settings',
+      url: '/dashboard/settings',
+      icon: <Settings />,
     },
   ],
 };

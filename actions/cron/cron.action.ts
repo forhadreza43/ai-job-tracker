@@ -4,15 +4,14 @@ import { prisma } from '@/lib/prisma';
 import { google } from 'googleapis';
 import { GoogleGenAI } from '@google/genai';
 
-// Initialize Gen AI client
 const ai = new GoogleGenAI({});
 
-// Response Type Interface
 interface EmailAnalysisResult {
   isRelevant: boolean;
   jobId: string | null;
   type: 'INTERVIEW' | 'ASSESSMENT' | null;
   summary: string;
+  interviewDate: string | null; // নতুন field
 }
 
 export async function checkEmailsForInterviews() {
@@ -39,7 +38,6 @@ export async function checkEmailsForInterviews() {
         continue;
       }
 
-      // Setup Gmail API
       const oauth2Client = new google.auth.OAuth2(
         process.env.GOOGLE_CLIENT_ID,
         process.env.GOOGLE_CLIENT_SECRET
@@ -49,7 +47,6 @@ export async function checkEmailsForInterviews() {
         refresh_token: account.refreshToken,
       });
 
-      // Token refresh — expire হলে নতুন token নেওয়া হবে
       try {
         const { credentials } = await oauth2Client.refreshAccessToken();
         oauth2Client.setCredentials(credentials);
@@ -72,8 +69,6 @@ export async function checkEmailsForInterviews() {
       }
 
       const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
-
-      // Last 30 minutes এর unread emails
       const timeLimit = new Date(Date.now() - 30 * 60000).getTime() / 1000;
 
       let messages: { id?: string | null }[] = [];
@@ -128,16 +123,26 @@ export async function checkEmailsForInterviews() {
           );
 
           if (analysis.isRelevant && analysis.jobId && analysis.type) {
-            // jobId টা সত্যিই এই user এর কিনা verify করা হচ্ছে
             const jobBelongsToUser = userJobs.some(
               (j) => j.id === analysis.jobId
             );
             if (!jobBelongsToUser) continue;
 
+            // interviewDate parse করা হচ্ছে
+            const interviewDate = analysis.interviewDate
+              ? new Date(analysis.interviewDate)
+              : null;
+            const isValidDate =
+              interviewDate && !isNaN(interviewDate.getTime());
+
             await prisma.$transaction([
               prisma.job.update({
                 where: { id: analysis.jobId },
-                data: { status: analysis.type },
+                data: {
+                  status: analysis.type,
+                  // interviewDate valid হলেই update হবে
+                  ...(isValidDate && { interviewDate }),
+                },
               }),
               prisma.notification.create({
                 data: {
@@ -188,8 +193,11 @@ CRITICAL INSTRUCTIONS:
   "isRelevant": boolean,
   "jobId": "string (the exact ID from the job list, or null if no match)",
   "type": "INTERVIEW" | "ASSESSMENT" | null,
-  "summary": "string (A short 1-2 sentence summary)"
+  "summary": "string (A short 1-2 sentence summary)",
+  "interviewDate": "string (ISO 8601 date format e.g. '2025-07-15T10:00:00', or null if no date mentioned)"
 }
+- Extract interview/assessment date and time if mentioned in the email.
+- If no date is mentioned, set interviewDate to null.
 - Do not include any text outside the JSON block.`;
 
   const userPrompt = `Job Context List: ${JSON.stringify(jobContext)}\n\nEmail Content to Analyze: "${emailContent}"`;
@@ -225,9 +233,17 @@ CRITICAL INSTRUCTIONS:
           ? parsed.type
           : null,
       summary: parsed.summary || 'Job status updated based on recent email.',
+      interviewDate:
+        typeof parsed.interviewDate === 'string' ? parsed.interviewDate : null,
     };
   } catch (error) {
     console.error('Gemini analysis error:', error);
-    return { isRelevant: false, jobId: null, type: null, summary: '' };
+    return {
+      isRelevant: false,
+      jobId: null,
+      type: null,
+      summary: '',
+      interviewDate: null,
+    };
   }
 }
