@@ -205,7 +205,7 @@ export function JobTrackerContent() {
 
       {/* Results Block */}
       {result && (
-        <Card className="bg-white p-4 ">
+        <Card className="p-4">
           <ShowExtractedResult result={result} />
           <div className="flex gap-3">
             {saveSuccess && (
